@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  posts: [],
-  userPosts: [],
+  posts: {},
+  userPosts: {},
   isClickedLike: null,
 };
 

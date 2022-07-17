@@ -28,6 +28,7 @@ const Index = ({ user }) => {
   const userById = useSelector((state) => state.user.userById);
   const currentUser = useSelector((state) => state.user.currentUser);
   const userPostsData = useSelector((state) => state.post.userPosts);
+  
   const followersData = useSelector((state) => state.follow.followers);
   const followingData = useSelector((state) => state.follow.following);
   const [pagination, setPagination] = useState({
@@ -40,12 +41,13 @@ const Index = ({ user }) => {
 
   const fetchData = async () => {
     const user = await userServices.getUserByIdService(userId);
-    const userPosts = await postServices.getUserPostsService(
+    const userPostsData = await postServices.getUserPostsService(
       user,
       pagination.skip,
       pagination.limit
     );
-    dispatch(setUserPosts(userPosts));
+     console.log("USER POSTS DATA",userPostsData);
+     dispatch(setUserPosts(userPostsData));
   };
 
   const handleShowMore = (e, _limit) => {
@@ -73,8 +75,8 @@ const Index = ({ user }) => {
   useEffect(() => {
     (async function () {
       const user = await userServices.getUserByIdService(userId);
-      const userPosts = await postServices.getUserPostsService(user);
-      dispatch(setUserPosts(userPosts));
+      const userPostsData = await postServices.getUserPostsService(user);
+      dispatch(setUserPosts(userPostsData));
     })();
   }, [likeTest, dispatch]);
 
@@ -220,7 +222,7 @@ const Index = ({ user }) => {
                                 {follower?.imageUrl === null ? (
                                   <img
                                     src={require("../../../helpers/images/avatar.jpg")}
-                                    className="w-100"
+                                    className="w-100 follower-img"
                                     alt="follower"
                                   />
                                 ) : (
@@ -277,7 +279,7 @@ const Index = ({ user }) => {
                                 {following?.imageUrl === null ? (
                                   <img
                                     src={require("../../../helpers/images/avatar.jpg")}
-                                    className="w-100"
+                                    className="w-100 following-img"
                                     alt="following"
                                   />
                                 ) : (
@@ -320,8 +322,8 @@ const Index = ({ user }) => {
             <div className="col-md-8">
               <div className="user-friends">
                 <div className="row">
-                  {userPostsData && userPostsData.length > 0
-                    ? userPostsData.map((post) =>
+                  {userPostsData && userPostsData?.userPosts?.length > 0
+                    ? userPostsData.userPosts.map((post) =>
                         post.images || post.images.length > 0
                           ? post.images.map((img, index) => (
                               <div className="col-md-4" key={index}>
@@ -351,8 +353,8 @@ const Index = ({ user }) => {
             <div className="col-md-8">
               <div className="user-friends">
                 <div className="row">
-                  {userPostsData && userPostsData.length > 0
-                    ? userPostsData.map((post) =>
+                  {userPostsData && userPostsData?.userPosts?.length > 0
+                    ? userPostsData.userPosts.map((post) =>
                         post.videos || post.videos.length > 0
                           ? post.videos.map((video, index) => (
                               <div className="col-md-4" key={index}>

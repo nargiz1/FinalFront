@@ -127,6 +127,12 @@ ul.about li i {
 .user-friends .friend-card .friend-card-img video {
   height: 90px;
 }
+.user-friends .friend-card .friend-card-img .follower-img {
+  height: 115px;
+}
+.user-friends .friend-card .friend-card-img .following-img {
+  height: 115px;
+}
 .user-friends .friend-card .friend-card-info {
   padding: 11px 0px;
   text-align: left;

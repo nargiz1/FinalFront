@@ -31,6 +31,7 @@ function Feed() {
       pagination.skip,
       pagination.limit
     );
+    console.log("response data",responseData);
     dispatch(setPosts(responseData));
   };
 

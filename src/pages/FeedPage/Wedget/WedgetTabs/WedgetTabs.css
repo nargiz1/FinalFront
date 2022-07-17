@@ -11,7 +11,7 @@
   font-weight: bold;
 }
 .MuiTabs-scroller button.Mui-selected {
-  color: #5850EC;
+  color: #5850EC!important;
 }
 .css-1aquho2-MuiTabs-indicator {
   background-color: #5850EC !important;
