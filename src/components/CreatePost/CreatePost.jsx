@@ -91,106 +91,7 @@ const CreatePost = () => {
           />
 
           <form>
-            {/* <ModalBootstrapt show={show} onHide={handleClose}>
-              <ModalBootstrapt.Header closeButton>
-                <ModalBootstrapt.Title>Create Post</ModalBootstrapt.Title>
-              </ModalBootstrapt.Header>
-              <ModalBootstrapt.Body>
-                <div className="d-flex align-items-center">
-                  <a href="#">
-                    <div className="user-info">
-                      <FaUserAlt />
-                    </div>
-                  </a>
-
-                  <input
-                    type="text"
-                    placeholder="What's Your Mind?"
-                    className="w-100 bg-white"
-                    name="Text"
-                    onChange={(e) =>
-                      handleChange(e.target.name, e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="add-post">
-                  <div className="text-center mb-3">Add to your post</div>
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="d-flex">
-                      <div className="me-2">
-                        <label htmlFor="photo">
-                          <div className="photo-icon">
-                            <HiOutlinePhotograph />
-                          </div>
-                        </label>
-                        <input
-                          type="file"
-                          accept="images/*"
-                          id="photo"
-                          className="custom-file-upload d-none"
-                          name="ImageFiles"
-                          multiple
-                          onChange={(e) =>
-                            handleChange(e.target.name, e.target.files)
-                          }
-                        />
-                      </div>
-                      <div className="me-2">
-                        <label htmlFor="video">
-                          <div className="video-icon">
-                            <MdVideoCall />
-                          </div>
-                        </label>
-                        <input
-                          type="file"
-                          id="video"
-                          className="custom-file-upload d-none"
-                          name="VideoFiles"
-                          multiple
-                          onChange={(e) =>
-                            handleChange(e.target.name, e.target.files)
-                          }
-                        />
-                      </div>
-                      <div className="d-flex">
-                   
-                        <input
-                          type="text"
-                          id="location"
-                          className="custom-file-upload"
-                          placeholder="Location..."
-                          name="Location"
-                          onChange={(e) =>
-                            handleChange(e.target.name, e.target.value)
-                          }
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label htmlFor="IsPrivate"> Private Post</label>
-                      <input
-                        type="checkbox"
-                        id="IsPrivate"
-                        name="IsPrivate"
-                        onChange={(e) =>
-                          handleChange(e.target.name, e.target.checked)
-                        }
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                
-                  </div>
-                </div>
-              </ModalBootstrapt.Body>
-              <ModalBootstrapt.Footer>
-                <Button className="btn btn-primary" onClick={handleClose}>
-                  Create
-                </Button>
-              </ModalBootstrapt.Footer>
-            </ModalBootstrapt> */}
+          
             <div
               className={`modal fade create `}
               id="exampleModal1"
@@ -258,6 +159,7 @@ const CreatePost = () => {
                             </label>
                             <input
                               type="file"
+                              title=""
                               id="video"
                               className="custom-file-upload d-none"
                               name="VideoFiles"
@@ -266,6 +168,7 @@ const CreatePost = () => {
                                 handleChange(e.target.name, e.target.files)
                               }
                             />
+                          
                           </div>
                           <div className="d-flex">
                             <input
@@ -307,7 +210,8 @@ const CreatePost = () => {
                  
                     </div>
                   </div>
-                  <div className="modal-footer">
+                  <div className="modal-footer d-flex justify-content-between">
+                    <div>Salam</div>
                     <button
                       type="submit"
                       className="btn btn-primary "

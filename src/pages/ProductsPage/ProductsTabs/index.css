@@ -89,9 +89,9 @@
   border-radius: 8px;
   border: 2px dashed #cdcecf;
 }
-input[type="file"] {
+ input[type="file"] {
   opacity: 0;
-}
+} 
 input,
 select,
 textarea {

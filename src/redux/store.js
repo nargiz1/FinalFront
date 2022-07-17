@@ -3,6 +3,7 @@ import authReducer from './Auth/AuthSlice';
 import postReducer from './Post/PostSlice';
 import followReducer from './Follow/FollowSlice';
 import userReducer from './User/UserSlice';
+import advReducer from './Adv/AdvSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     post: postReducer,
     follow: followReducer,
     user: userReducer,
+    adv: advReducer,
   },
 });
 

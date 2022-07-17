@@ -62,7 +62,6 @@ const Index = ({ user }) => {
   useEffect(() => {
     (async function () {
       const user = await userServices.getUserByIdService(userId);
-      const currentUser = await userServices.getUserService();
       const following = await followServices.getSubscribesService(user);
       const followers = await followServices.getFollowersService(user);
       dispatch(setUserById(user));
@@ -222,6 +221,7 @@ const Index = ({ user }) => {
                                   <img
                                     src={require("../../../helpers/images/avatar.jpg")}
                                     className="w-100"
+                                    alt="follower"
                                   />
                                 ) : (
                                   <img
@@ -230,6 +230,7 @@ const Index = ({ user }) => {
                                       follower?.imageUrl
                                     }
                                     className="w-100"
+                                    alt="follower"
                                   />
                                 )}
                               </div>
@@ -277,6 +278,7 @@ const Index = ({ user }) => {
                                   <img
                                     src={require("../../../helpers/images/avatar.jpg")}
                                     className="w-100"
+                                    alt="following"
                                   />
                                 ) : (
                                   <img

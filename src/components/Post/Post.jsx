@@ -395,7 +395,7 @@ const Post = ({ post, likeTest, setLikeTest }) => {
         ) :   (<p className="m-0 p-2 text-start">Comments are off.</p>)}
             <div className="p-2 d-flex align-items-center">
               <span className="post-date">
-                <Moment format="DD/MM/YYYY">{post.created}</Moment>
+                <Moment fromNow>{post.created}</Moment>
               </span>
             </div>
       </div>
