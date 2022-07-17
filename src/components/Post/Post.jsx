@@ -45,6 +45,7 @@ const Post = ({ post, likeTest, setLikeTest }) => {
     if (createComment.text !== "" && createComment.postId !== "") {
       try {
         const resp = await commentServices.CommentPostService(createComment);
+        getAllPosts();
       } catch (error) {
         console.log("error: ", error);
       }
@@ -62,6 +63,7 @@ const Post = ({ post, likeTest, setLikeTest }) => {
   };
   const deleteComment = async (id) => {
     await commentServices.deleteCommentService(id);
+    getAllPosts();
   };
 
   const handleLikePost = async (e, id) => {
@@ -343,20 +345,6 @@ const Post = ({ post, likeTest, setLikeTest }) => {
                         <div className="comment align-items-center">
                           <p>{comment.text}</p>
                         </div>
-                        <div className="d-flex comment-options align-items-center">
-                          <div className="d-flex me-2">
-                            <a
-                              href="#"
-                              className="text-decoration-none text-danger"
-                            >
-                              <AiOutlineHeart />
-                            </a>
-                          </div>
-                          <div className="d-flex me-2"></div>
-                          <span className="comment-date text-secondary comment-date">
-                            3d
-                          </span>
-                        </div>
                       </div>
                     </div>
                     {post.userId == currentUser?.id ||
@@ -388,6 +376,7 @@ const Post = ({ post, likeTest, setLikeTest }) => {
        
               <div className="post-input position-relative">
                 <form onSubmit={handleSubmit}>
+                  
                   <input
                     type="text"
                     className="w-100"

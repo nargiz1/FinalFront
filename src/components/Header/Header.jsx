@@ -12,6 +12,8 @@ import { setCurrentUser} from "../../redux/User/UserSlice";
 import Logo from "../../helpers/images/logo.png";
 import "../Header/Header.css";
 import * as userServices from "../../services/UserService";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 function Header({ isOpen, setIsOpen, showIcon = true, handleShow }) {
   // const dispatch = useDispatch();
@@ -23,6 +25,10 @@ function Header({ isOpen, setIsOpen, showIcon = true, handleShow }) {
   // }, [ dispatch]);
 
   const currentUser = useSelector((state) => state.user.currentUser);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleModalShow = () => setShow(true);
 
   const [searchUser, setSearchUser] = useState("");
   const [userData, setUserData] = useState([]);
@@ -115,10 +121,31 @@ function Header({ isOpen, setIsOpen, showIcon = true, handleShow }) {
                 <div className="circle">3</div>
                 <MdShoppingCart />
               </a> */}
-              <a href="#">
+              <a  onClick={handleModalShow}>
                 <div className="circle">1</div>
                 <RiNotification2Fill />
               </a>
+       
+
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+       
+        <Modal.Body>
+          I will not close if you click outside me. Don't even try to press
+          escape key.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        
+        </Modal.Footer>
+      </Modal>
+              
               <a href="#">
                 <div className="circle">5</div>
                 <BiMessageDetail />

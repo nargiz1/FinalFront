@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-
 import * as authServices from "../../services/AuthService";
+import * as userServices from "../../services/UserService";
 import { setLogin } from "../../redux/Auth/AuthSlice";
+import { setCurrentUser } from "../../redux/User/UserSlice";
 import LoginSVG from "../../helpers/images/login.svg";
+import {Formik,Form} from 'formik';
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -20,7 +22,7 @@ const Index = () => {
   const backToLogin = {
     textDecoration: "none",
     color: "#393939",
-    fontStyle:"italic"
+    fontStyle: "italic",
   };
 
   const handleChange = (name, value) => {
@@ -32,12 +34,20 @@ const Index = () => {
     if (authData.email !== "" && authData.password !== "") {
       try {
         const resp = await authServices.LoginService(authData);
-
         if (resp && resp.token) {
-          toast.success("User was loggined successfully!");
           dispatch(setLogin(resp.token));
           sessionStorage.setItem("token", resp.token);
-          navigate("/");
+          const user = await userServices.getUserService();
+          dispatch(setCurrentUser(user));
+          if (user.isActive === false) {
+            sessionStorage.removeItem("token");
+            dispatch(setLogin(null));
+            toast.error("You haven't login,please contact admin.");
+            navigate("/login");
+          } else {
+            toast.success("User was loggined successfully!");
+            navigate("/");
+          }
         } else {
           toast.error("User was not loggined or Please, look to gmail!");
         }
@@ -51,8 +61,9 @@ const Index = () => {
     <>
       <div className="container">
         <div className="row vh-100 justify-content-center align-items-center">
+          
           <div className="col-md-6 col-lg-7 login-img">
-          <img src={LoginSVG} alt="Login" className="w-100" />
+            <img src={LoginSVG} alt="Login" className="w-100" />
           </div>
           <div className="col-md-6 col-lg-5 login-form">
             <div className="register-sign-in sign-in pt-5">

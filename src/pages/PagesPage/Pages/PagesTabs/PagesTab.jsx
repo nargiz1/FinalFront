@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
-import { BsFillArrowDownCircleFill, BsFillPlusCircleFill } from "react-icons/bs";
+import {
+  BsFillArrowDownCircleFill,
+  BsFillPlusCircleFill,
+} from "react-icons/bs";
 import { setUsers } from "../../../../redux/User/UserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setFollowing } from "../../../../redux/Follow/FollowSlice";
@@ -13,10 +16,10 @@ export default function PagesTabs() {
   const users = useSelector((state) => state.user.users);
   const [pagination, setPagination] = useState({
     skip: 0,
-    limit: 3,
+    limit: 4,
   });
 
-  const page_limit = 3;
+  const page_limit = 4;
 
   const fetchData = async () => {
     const users = await userServices.getUsersService(
@@ -34,7 +37,6 @@ export default function PagesTabs() {
   useEffect(() => {
     fetchData();
   }, [pagination, dispatch]);
- 
 
   let visitedPage = page_limit + pagination.limit;
 
@@ -45,7 +47,6 @@ export default function PagesTabs() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
 
   const handleFollow = async (id) => {
     const data = await followServices.followService(id);
@@ -62,13 +63,12 @@ export default function PagesTabs() {
 
   return (
     <>
-      
       <div className="row align-items-center justify-content-center">
         {users
           ? users.users?.map((user, index) =>
               user.id !== currentUser.id ? (
-                <div className="col-md-6 col-lg-4 mb-4">
-                  <div key={index} className="pages-card">
+                <div key={index} className="col-md-6 col-lg-4 mb-4">
+                  <div className="pages-card">
                     <div className="pages-card-top">
                       {user?.imageUrl === "Resources\\Images\\" ? (
                         <img
@@ -122,13 +122,16 @@ export default function PagesTabs() {
               ) : null
             )
           : null}
-            {pagination.limit < users.count ? (
-        <div className="d-flex justify-content-center mb-3">
-          <div onClick={(e) => handleShowMore(e, visitedPage)} className="show-more">
-           <BsFillArrowDownCircleFill/>
+        {pagination.limit < users.count ? (
+          <div className="d-flex justify-content-center mb-3">
+            <div
+              onClick={(e) => handleShowMore(e, visitedPage)}
+              className="show-more"
+            >
+              <BsFillArrowDownCircleFill />
+            </div>
           </div>
-        </div>
-      ) : null}
+        ) : null}
       </div>
     </>
   );

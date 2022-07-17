@@ -21,10 +21,10 @@ export async function getAllPostsService(skip, take) {
   }
 };
 
-export async function getUserPostsService(user) {
+export async function getUserPostsService(user,skip, take) {
   try {
     return await (
-      await Axios.get(`/api/Post/getUserPosts`,{
+      await Axios.get(`/api/Post/getUserPosts`, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
@@ -32,8 +32,8 @@ export async function getUserPostsService(user) {
         },
         params:{
           "userId":`${user.id}`,
-          "Skip": 0,
-          "Take": 10,
+          "Skip": skip,
+          "Take": take,
         }
        
       })

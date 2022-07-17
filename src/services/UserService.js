@@ -48,7 +48,7 @@ export async function UpdateUserService(payload) {
     console.log("err: ", error);
   }
 }
-export async function getUsersService() {
+export async function getUsersService(skip, take) {
   try {
     return await (
       await Axios.get(`/api/User/users`, {
@@ -58,8 +58,8 @@ export async function getUsersService() {
           Accept: "application/json",
         },
         params: {
-          Skip: 0,
-          Take: 10,
+          Skip: skip,
+          Take: take,
         },
       })
     ).data;
