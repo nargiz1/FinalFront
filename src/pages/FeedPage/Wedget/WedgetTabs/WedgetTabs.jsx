@@ -10,13 +10,13 @@ import "./WedgetTabs.css";
 import Tabs from "../../../../components/Tabs/Tabs";
 import TabPanel from "../../../../components/Tabs/TabPanel";
 import { setCurrentUser } from "../../../../redux/User/UserSlice";
+import { Link } from "react-router-dom";
 
 export default function WedgetTabs() {
   const currentUser = useSelector((state) => state.user.currentUser);
   const following = useSelector((state) => state.follow.following);
   const followers = useSelector((state) => state.follow.followers);
-  console.log("fwings", following);
-  console.log("fwers", followers);
+
   const [value, setValue] = React.useState(0);
   const dispatch = useDispatch();
 
@@ -36,6 +36,7 @@ export default function WedgetTabs() {
         <TabPanel value={value} index={0}>
           {following && following.length > 0
             ? following.map((f, index) => (
+              <Link to={`user/${f.id}`} className="text-decoration-none text-black">
                 <div
                   key={index}
                   className="d-flex align-items-center mb-3 text-dark text-decoration-none"
@@ -60,14 +61,15 @@ export default function WedgetTabs() {
                     </div>
                     )
                   }
-                  <div className="ms-2">{f.userName}</div>
-                </div>
+                  <div className="ms-2">@{f.userName}</div>
+                </div></Link>
               ))
             : ("You don't follow anybody.")}
         </TabPanel>
         <TabPanel value={value} index={1}>
         {followers && following.length > 0
             ? followers.map((f, index) => (
+              <Link to={`user/${f.id}`} className="text-decoration-none text-black">
                 <div
                   key={index}
                   className="d-flex align-items-center mb-3 text-dark text-decoration-none"
@@ -95,6 +97,7 @@ export default function WedgetTabs() {
                 
                   <div className="ms-2">{f.userName}</div>
                 </div>
+              </Link>
               ))
             : ("Nobody follows you.")}
         </TabPanel>

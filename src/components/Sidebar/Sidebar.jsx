@@ -15,8 +15,8 @@ import SidebarRow from "./SidebarRow/SidebarRow";
 
 function Sidebar({ isOpen }) {
   const dispatch = useDispatch();
-  const [show, setShow] = useState(false);
   const navigate = useNavigate();
+  const [show, setShow] = useState(false);
 
   const logoutHandler = () => {
     authServices.LogoutService();

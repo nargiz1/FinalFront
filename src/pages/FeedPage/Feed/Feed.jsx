@@ -13,11 +13,8 @@ import { BsFillArrowDownCircleFill } from "react-icons/bs";
 function Feed() {
   const dispatch = useDispatch();
   var advIndex=0;
-
-
   const data = useSelector((state) => state.post.posts);
   const advs = useSelector((state) => state.adv.adv);
-  console.log("advs re",advs);
   const [likeTest, setLikeTest] = useState(false);
   const [pagination, setPagination] = useState({
     skip: 0,
