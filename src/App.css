@@ -1,9 +1,8 @@
-.slick-prev {
-    left: -10px!important;
+.slick-arrow.slick-prev{
+  display: none!important;
 }
-
-.slick-next {
-    right: -3px!important;
+.slick-arrow.slick-next{
+  display: none!important;
 }
 .register-sign-in{
     color: #3F3D56;
@@ -53,6 +52,9 @@
 }
 .offcanvas{
     width: 310px!important;
+}
+.feed{
+  padding: 0px 100px;
 }
 .createPost-top .user-info,
 .photo-icon,
@@ -110,6 +112,9 @@
     margin: 30px;
 
   }
+  .feed{
+    padding: 0px;
+  }
 
 }
 @media only screen and (max-width: 540px) {
@@ -122,8 +127,6 @@
   .sidebar-transform .offcanvas-body{
     width: 53%!important;
   }
-}
-@media only screen and (max-width: 540px) {
   .login-img,.register-img,.reset-img{
     display: none;
   }
@@ -135,11 +138,19 @@
   .register-form,.resert-form{
     padding-top: 40px;
   }
- 
+  .feed{
+    padding: 0px;
+  }
 }
 .show-more{
   font-size: 23px;
   color: #5850EC;
+}
+.carousel-inner .active{
+  background-color: none!important;
+    border-radius: none!important;
+    width: 100%;
+    padding: 0px!important;
 }
 
 

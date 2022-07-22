@@ -5,20 +5,14 @@ import { AiOutlineDelete, AiOutlineHeart, AiOutlineLike } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
 import { BsShare, BsEmojiLaughing } from "react-icons/bs";
 import { GoKebabHorizontal } from "react-icons/go";
-import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
-import { IoMdLink } from "react-icons/io";
-import Avatar from "@mui/material/Avatar";
-import AvatarGroup from "@mui/material/AvatarGroup";
 import * as postServices from "../../services/PostService";
 import * as commentServices from "../../services/CommentService";
 import * as likeServices from "../../services/LikeService";
 import "./Post.css";
 import Moment from "react-moment";
 import Carousel from "react-bootstrap/Carousel";
-import { setIsClickedLike, setPosts } from "../../redux/Post/PostSlice";
-import Button from "react-bootstrap/Button";
+import {  setPosts } from "../../redux/Post/PostSlice";
 import Modal from "react-bootstrap/Modal";
-import Dropdown from "react-bootstrap/Dropdown";
 
 const Post = ({ post, likeTest, setLikeTest }) => {
   const dispatch = useDispatch();
@@ -111,7 +105,7 @@ const Post = ({ post, likeTest, setLikeTest }) => {
             <div className="ms-3 text-start">
               <div className="username text-lowercase">
                 <Link to={`/user/${post?.user?.id}`} className="username">
-                  @{post?.user?.userName || "user"}
+                  {post?.user?.userName || "user"}
                 </Link>
               </div>
               <div className="d-flex align-items-center">

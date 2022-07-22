@@ -7,13 +7,13 @@ import { setAdvs } from "../../../redux/Adv/AdvSlice";
 import CreatePost from "../../../components/CreatePost/CreatePost";
 import Post from "../../../components/Post/Post";
 import Advertisement from "../../../components/Advertisement/Advertisement";
-import "../Feed/Feed.css";
 import { BsFillArrowDownCircleFill } from "react-icons/bs";
 
 function Feed() {
   const dispatch = useDispatch();
   var advIndex=0;
   const data = useSelector((state) => state.post.posts);
+  console.log("user",data.allPosts)
   const advs = useSelector((state) => state.adv.adv);
   const [likeTest, setLikeTest] = useState(false);
   const [pagination, setPagination] = useState({
@@ -55,18 +55,18 @@ function Feed() {
        
        data.allPosts.map((item, index) => (
         <>
-        <Post
-          post={item}
-          key={index}
-          likeTest={likeTest}
-          setLikeTest={setLikeTest}
-        />
-        
-      {index%3===0 && (
-        advs?.ads?.map((item,index)=>(
-          <Advertisement adv={item} key={index}/>
-        ))
-      )}
+        {item.comments ? (
+                <Post
+                  post={item}
+                  key={index}
+                  likeTest={likeTest}
+                  setLikeTest={setLikeTest}
+                />)
+                : 
+                (
+                  <Advertisement adv={item} />
+                )
+              }
         </>
             ))
         : null}

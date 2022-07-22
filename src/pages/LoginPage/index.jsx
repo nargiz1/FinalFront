@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
@@ -7,17 +9,46 @@ import * as userServices from "../../services/UserService";
 import { setLogin } from "../../redux/Auth/AuthSlice";
 import { setCurrentUser } from "../../redux/User/UserSlice";
 import LoginSVG from "../../helpers/images/login.svg";
-import {Formik,Form} from 'formik';
 
 const Index = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [disabled, setDisabled] = useState(true);
 
-  const [authData, setAuthData] = useState({
-    email: "",
-    password: "",
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email("Invalid email.")
+      .required("Email is required."),
+    password: Yup.string()
+      .min(8, "min length")
+      .required("Password is required.")
+      .matches(
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+      ),
   });
 
-  const navigate = useNavigate();
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      // console.log("values formik: ", values);
+    },
+  });
+
+
+  useEffect(() => {
+    if (Object.entries(formik.errors).length === 0 && Object.entries(formik.touched).length !== 0) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [formik]);
+  
+
 
   const backToLogin = {
     textDecoration: "none",
@@ -25,15 +56,10 @@ const Index = () => {
     fontStyle: "italic",
   };
 
-  const handleChange = (name, value) => {
-    setAuthData({ ...authData, [name]: value });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (authData.email !== "" && authData.password !== "") {
       try {
-        const resp = await authServices.LoginService(authData);
+        const resp = await authServices.LoginService(formik.values);
         if (resp && resp.token) {
           dispatch(setLogin(resp.token));
           sessionStorage.setItem("token", resp.token);
@@ -49,19 +75,17 @@ const Index = () => {
             navigate("/");
           }
         } else {
-          toast.error("User was not loggined or Please, look to gmail!");
+          toast.error("User was not loggined!");
         }
       } catch (error) {
         console.log("error: ", error);
       }
-    }
   };
 
   return (
     <>
       <div className="container">
         <div className="row vh-100 justify-content-center align-items-center">
-          
           <div className="col-md-6 col-lg-7 login-img">
             <img src={LoginSVG} alt="Login" className="w-100" />
           </div>
@@ -77,10 +101,19 @@ const Index = () => {
                     type="email"
                     name="email"
                     placeholder="Email"
-                    onChange={(e) =>
-                      handleChange(e.target.name, e.target.value)
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    style={
+                      formik.touched.email && formik.errors.email
+                        ? { border: "1px solid red" }
+                        : null
                     }
+                    value={formik.values.email}
                   />
+
+                  {formik.touched.email && formik.errors.email && (
+                    <p style={{ color: "red",fontSize:"13px" }}>{formik.errors.email}</p>
+                  )}
                 </div>
                 <div className="mb-4">
                   <input
@@ -90,16 +123,26 @@ const Index = () => {
                     type="password"
                     name="password"
                     placeholder="Password"
-                    onChange={(e) =>
-                      handleChange(e.target.name, e.target.value)
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    style={
+                      formik.touched.password && formik.errors.password
+                        ? { border: "1px solid red" }
+                        : null
                     }
+                    value={formik.values.password}
                   />
+                  {formik.touched.password && formik.errors.password && (
+                    <p style={{ color: "red",fontSize:"13px" }}>{formik.errors.password}</p>
+                  )}
                 </div>
                 <div className="mb-4">
                   <button
                     className="w-100 fw-bold"
                     type="submit"
                     onClick={handleSubmit}
+                    disabled={disabled}
+                    style={ disabled ? { backgroundColor: 'grey', color: '#fff', cursor: 'not-allowed' } : null}
                   >
                     Log In
                   </button>

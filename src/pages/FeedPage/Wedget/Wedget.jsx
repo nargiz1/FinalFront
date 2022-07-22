@@ -11,18 +11,7 @@ import { setCurrentUser } from "../../../redux/User/UserSlice";
 import WedgetTabs from "./WedgetTabs/WedgetTabs";
 
 function Wedget() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    (async function () {
-      const currentUser = await userServices.getUserService();
-      const following = await followServices.getSubscribesService(currentUser);
-      const followers = await followServices.getFollowersService(currentUser);
-      dispatch(setCurrentUser(currentUser));
-      dispatch(setFollowers(followers));
-      dispatch(setFollowing(following));
-    })();
-  }, [dispatch]);
+ 
   return (
     <div className="wedget position-fixed">
       <WedgetTabs />

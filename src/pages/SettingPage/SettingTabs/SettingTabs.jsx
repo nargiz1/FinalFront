@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 import { useSelector } from "react-redux";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Tabs from "../../../components/Tabs/Tabs";
 import TabPanel from "../../../components/Tabs/TabPanel";
 import * as authServices from "../../../services/AuthService";
@@ -9,6 +10,7 @@ import * as userServices from "../../../services/UserService";
 const SettingTabs = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const [value, setValue] = React.useState(0);
+  const [serviceList, setServiceList] = useState([{ service: "" }]);
   const navigate = useNavigate();
 
   const handleChange = (event, newValue) => {
@@ -21,15 +23,15 @@ const SettingTabs = () => {
     Education: "",
     Status: "",
     Country: "",
-    PhoneNumber:"",
-    SocialMediaLinks:[]
+    PhoneNumber: "",
+    SocialMediaLinks: [],
   });
 
   const [updatePasswordData, setUpdatePasswordData] = useState({
     email: "",
     currentPassword: "",
     newPassword: "",
-    passwordConfirm: ""
+    passwordConfirm: "",
   });
 
   useEffect(() => {
@@ -41,9 +43,9 @@ const SettingTabs = () => {
         Occupation: currentUser.occupation ?? "",
         RelationshipStatus: currentUser.relationshipStatus ?? "",
         Status: currentUser.status ?? "",
-        PhoneNumber:currentUser.phoneNumber ?? "",
-        SocialMediaLinks:currentUser.socialMediaLinks ?? []
-      })
+        PhoneNumber: currentUser.phoneNumber ?? "",
+        SocialMediaLinks: currentUser.socialMediaLinks ?? [],
+      });
     }
   }, [currentUser]);
 
@@ -51,7 +53,7 @@ const SettingTabs = () => {
     if (currentUser) {
       setUpdatePasswordData({
         email: currentUser.email ?? "",
-      })
+      });
     }
   }, [currentUser]);
 
@@ -65,14 +67,24 @@ const SettingTabs = () => {
   const handleUserSubmit = async (e) => {
     e.preventDefault();
     console.log("updateUserData", updateUserData);
-     const resp = await userServices.UpdateUserService(updateUserData);
-     navigate("/user");
+    const resp = await userServices.UpdateUserService(updateUserData);
+    navigate("/user");
   };
+  const handleServiceAdd = () => {
+    setServiceList([...serviceList, { service: "" }]);
+  };
+  const handleServiceRemove = (index) => {
+    const list = [...serviceList];
+    list.splice(index, 1);
+    setServiceList(list);
+  };
+  const input = React.createElement("input", {});
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     console.log("updatePasswordData", updatePasswordData);
-     const resp = await authServices.ChangePasswordService(updatePasswordData);
+    const resp = await authServices.ChangePasswordService(updatePasswordData);
   };
+
   return (
     <>
       <Tabs
@@ -160,17 +172,53 @@ const SettingTabs = () => {
                         }
                       />
                     </div>
-                    <div>
-                      <input
-                        type="text"
-                        placeholder="Social media links"
-                        name="SocialMediaLinks"
-                        value={updateUserData.SocialMediaLinks}
-                        className="form-control w-100 shadow-none mb-3"
-                        onChange={(e) =>
-                          handleUserChange(e.target.name, e.target.value)
-                        }
-                      />
+                    <div className="position-relative">
+                      {serviceList.map((singleService, index) => (
+                        <div key={index}>
+                          <input
+                            type="text"
+                            placeholder="Social media links"
+                            name="SocialMediaLinks"
+                            value={updateUserData.SocialMediaLinks}
+                            className="form-control w-100 shadow-none mb-3"
+                            onChange={(e) =>
+                              handleUserChange(e.target.name, e.target.value)
+                            }
+                          />
+
+                          <button
+                            type="button"
+                            onClick={handleServiceAdd}
+                            style={{
+                              position: "absolute",
+                              right: "40px",
+                              top: "8px",
+                              width: "26px",
+                              height: "26px",
+                              padding: "0px",
+                            }}
+                          >
+                            +
+                          </button>
+                          {serviceList.length !== 1 && (
+                          <button
+                            type="button"
+                            onClick={() => handleServiceRemove(index)}
+                            style={{
+                              position: "absolute",
+                              right: "8px",
+                              top: "8px",
+                              width: "26px",
+                              height: "26px",
+                              padding: "0px",
+                            }}
+                          >
+                            -
+                          </button>
+
+                          )}
+                        </div>
+                      ))}
                     </div>
                     <div>
                       <input
@@ -210,8 +258,8 @@ const SettingTabs = () => {
           </div>
         </TabPanel>
         <TabPanel value={value} index={1}>
-        <div className="container mb-5 mt-3">
-        <h5 className="text-center mb-3">Change Password</h5>
+          <div className="container mb-5 mt-3">
+            <h5 className="text-center mb-3">Change Password</h5>
             <form onSubmit={handlePasswordSubmit}>
               <div className="row justify-content-center align-items-center">
                 <div className="col-md-10 col-lg-6">
@@ -270,7 +318,7 @@ const SettingTabs = () => {
               </div>
             </form>
           </div>
-        </TabPanel> 
+        </TabPanel>
       </Tabs>
     </>
   );

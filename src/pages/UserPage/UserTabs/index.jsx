@@ -27,15 +27,16 @@ const Index = ({ user }) => {
   const [likeTest, setLikeTest] = useState(false);
   const userById = useSelector((state) => state.user.userById);
   const currentUser = useSelector((state) => state.user.currentUser);
+  console.log("current uer",currentUser);
   const userPostsData = useSelector((state) => state.post.userPosts);
-  
+
   const followersData = useSelector((state) => state.follow.followers);
   const followingData = useSelector((state) => state.follow.following);
   const [pagination, setPagination] = useState({
     skip: 0,
     limit: 3,
   });
-  console.log(pagination)
+  console.log(pagination);
 
   const page_limit = 3;
 
@@ -46,8 +47,7 @@ const Index = ({ user }) => {
       pagination.skip,
       pagination.limit
     );
-     console.log("USER POSTS DATA",userPostsData);
-     dispatch(setUserPosts(userPostsData));
+  
   };
 
   const handleShowMore = (e, _limit) => {
@@ -76,6 +76,7 @@ const Index = ({ user }) => {
     (async function () {
       const user = await userServices.getUserByIdService(userId);
       const userPostsData = await postServices.getUserPostsService(user);
+      console.log("userPostsData",userPostsData);
       dispatch(setUserPosts(userPostsData));
     })();
   }, [likeTest, dispatch]);
@@ -113,7 +114,11 @@ const Index = ({ user }) => {
         <TabPanel value={value} index={0}>
           <div className="row d-flex justify-content-center">
             <div className="col-lg-6 col-md-8">
-              <CreatePost />
+              {
+                currentUser.id===userById.id?(
+                  <CreatePost />
+                ):null
+              }
               {userPostsData && userPostsData?.userPosts?.length > 0 ? (
                 userPostsData?.userPosts?.map((item, index) => (
                   <Post
@@ -122,14 +127,11 @@ const Index = ({ user }) => {
                     likeTest={likeTest}
                     setLikeTest={setLikeTest}
                   />
-
                 ))
-                
-
               ) : (
                 <div className="mt-3">User doesn't have any post</div>
               )}
-               {pagination.limit < userPostsData?.count ? (
+              {pagination.limit < userPostsData?.count ? (
                 <div className="d-flex justify-content-center mb-3">
                   <div
                     onClick={(e) => handleShowMore(e, visitedPage)}
@@ -139,68 +141,68 @@ const Index = ({ user }) => {
                   </div>
                 </div>
               ) : null}
-             
             </div>
             <div className="col-lg-4">
               <div className="about-list">
-              <h3>About</h3>
-              <ul className="about text-capitalize">
-                {userById?.country !== null ? (
-                  <li>
-                    <i>
-                      <TbWorld style={{ color: "#3B82F6" }} />
-                    </i>
-                    Country |
-                    <span className="about-data">{userById.country}</span>
-                  </li>
+                <h3>About</h3>
+                <ul className="about text-capitalize">
+                  {userById?.country !== "" ? (
+                    <li>
+                      <i>
+                        <TbWorld style={{ color: "#3B82F6" }} />
+                      </i>
+                      Country |
+                      <span className="about-data">{userById.country}</span>
+                    </li>
+                  ) : null}
+                  {userById?.birthDate !== "" ? (
+                    <li>
+                      <i>
+                        <FaBirthdayCake style={{ color: "#EC4899" }} />
+                      </i>
+                      birth date |
+                      <span className="about-data">
+                        <Moment format="DD/MM/YYYY">
+                          {userById.birthDate}
+                        </Moment>
+                      </span>
+                    </li>
+                  ) : null}
+                  {userById?.education !== "" ? (
+                    <li>
+                      <i>
+                        <FaUniversity style={{ color: "#10B981" }} />
+                      </i>
+                      education |
+                      <span className="about-data">{userById.education}</span>
+                    </li>
+                  ) : null}
+                  {userById?.occupation !== "" ? (
+                    <li>
+                      <i>
+                        <MdOutlineWork style={{ color: "#F59E0B" }} />
+                      </i>
+                      occupation |
+                      <span className="about-data">{userById.occupation}</span>
+                    </li>
+                  ) : null}
+                  {userById?.relationshipStatus !== "" ? (
+                    <li>
+                      <i>
+                        <AiFillHeart style={{ color: "#EF4444" }} />
+                      </i>
+                      Relationship Status |
+                      <span className="about-data">
+                        {userById.relationshipStatus}
+                      </span>
+                    </li>
+                  ) : null}
+                </ul>
+                {userById.id == currentUser.id ? (
+                  <Link to={`/setting`}>
+                    <button className="edit-button w-100 mt-3">Edit</button>
+                  </Link>
                 ) : null}
-                {userById?.birthDate !== null ? (
-                  <li>
-                    <i>
-                      <FaBirthdayCake style={{ color: "#EC4899" }} />
-                    </i>
-                    birth date |
-                    <span className="about-data">
-                      <Moment format="DD/MM/YYYY">{userById.birthDate}</Moment>
-                    </span>
-                  </li>
-                ) : null}
-                {userById?.education !== null ? (
-                  <li>
-                    <i>
-                      <FaUniversity style={{ color: "#10B981" }} />
-                    </i>
-                    education |
-                    <span className="about-data">{userById.education}</span>
-                  </li>
-                ) : null}
-                {userById?.occupation !== null ? (
-                  <li>
-                    <i>
-                      <MdOutlineWork style={{ color: "#F59E0B" }} />
-                    </i>
-                    occupation |
-                    <span className="about-data">{userById.occupation}</span>
-                  </li>
-                ) : null}
-                {userById?.relationshipStatus !== null ? (
-                  <li>
-                    <i>
-                      <AiFillHeart style={{ color: "#EF4444" }} />
-                    </i>
-                    Relationship Status |
-                    <span className="about-data">
-                      {userById.relationshipStatus}
-                    </span>
-                  </li>
-                ) : null}
-              </ul>
-              {userById.id == currentUser.id ? (
-                <Link to={`/setting`}>
-                  <button className="edit-button w-100 mt-3">Edit</button>
-                </Link>
-              ) : null}
-
               </div>
             </div>
           </div>
@@ -213,47 +215,52 @@ const Index = ({ user }) => {
                   {followersData && followersData.length > 0
                     ? followersData.map((follower, index) => (
                         <div key={index} className="col-md-3">
-                          <Link
-                            to={`/user/${follower.id}`}
-                            className="text-decoration-none"
-                          >
-                            <div className="friend-card mb-3">
-                              <div className="friend-card-img">
-                                {follower?.imageUrl === null ? (
-                                  <img
-                                    src={require("../../../helpers/images/avatar.jpg")}
-                                    className="w-100 follower-img"
-                                    alt="follower"
-                                  />
-                                ) : (
-                                  <img
-                                    src={
-                                      "http://localhost:39524/" +
-                                      follower?.imageUrl
-                                    }
-                                    className="w-100"
-                                    alt="follower"
-                                  />
-                                )}
-                              </div>
+                          <div className="friend-card mb-3">
+                              <Link
+                                to={`/user/${follower.id}`}
+                                className="text-decoration-none"
+                              >
+                            <div className="friend-card-img">
+                              {follower?.imageUrl === null ? (
+                                <img
+                                  src={require("../../../helpers/images/avatar.jpg")}
+                                  className="w-100 follower-img"
+                                  alt="follower"
+                                />
+                              ) : (
+                                <img
+                                  src={
+                                    "http://localhost:39524/" +
+                                    follower?.imageUrl
+                                  }
+                                  className="w-100"
+                                  alt="follower"
+                                />
+                              )}
+                            </div>
                               <div className="friend-card-info">
                                 <div className="followers-name text-lowercase text-center">
                                   @{follower.userName}
                                 </div>
                               </div>
-                              <div>
-                                <button
-                                  type="submit"
-                                  className="w-100 btn-following"
-                                  onClick={(e) => {
-                                    deleteFollower(e, follower.id);
-                                  }}
-                                >
-                                  Delete
-                                </button>
-                              </div>
+                            </Link>
+                            <div>
+                              {
+                                currentUser.id===userById.id?(
+                              <button
+                                type="submit"
+                                className="w-100 btn-following"
+                                onClick={(e) => {
+                                  deleteFollower(e, follower.id);
+                                }}
+                              >
+                                Delete
+                              </button>
+
+                                ):null
+                              }
                             </div>
-                          </Link>
+                          </div>
                         </div>
                       ))
                     : "Nobody follows you."}
@@ -270,11 +277,11 @@ const Index = ({ user }) => {
                   {followingData && followingData.length > 0
                     ? followingData.map((following, index) => (
                         <div key={index} className="col-md-3">
+                            <div className="friend-card mb-3">
                           <Link
                             to={`/user/${following.id}`}
                             className="text-decoration-none"
                           >
-                            <div className="friend-card mb-3">
                               <div className="friend-card-img">
                                 {following?.imageUrl === null ? (
                                   <img
@@ -297,7 +304,10 @@ const Index = ({ user }) => {
                                   @{following.userName}
                                 </div>
                               </div>
+                                </Link>
                               <div>
+                                {
+                                  currentUser.id===userById.id?(
                                 <button
                                   className="w-100 btn-following"
                                   onClick={(e) => {
@@ -306,9 +316,11 @@ const Index = ({ user }) => {
                                 >
                                   Unfollow
                                 </button>
+
+                                  ):null
+                                }
                               </div>
                             </div>
-                          </Link>
                         </div>
                       ))
                     : "You don't follow anybody."}

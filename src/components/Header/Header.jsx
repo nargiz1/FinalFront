@@ -16,13 +16,13 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 function Header({ isOpen, setIsOpen, showIcon = true, handleShow }) {
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   (async function () {
-  //     const user= await userServices.getUserService();
-  //     dispatch(setCurrentUser(user))
-  //   })();
-  // }, [ dispatch]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    (async function () {
+      const user= await userServices.getUserService();
+      dispatch(setCurrentUser(user))
+    })();
+  }, [ dispatch]);
 
   const currentUser = useSelector((state) => state.user.currentUser);
   const [show, setShow] = useState(false);

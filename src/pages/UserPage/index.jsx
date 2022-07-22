@@ -61,7 +61,7 @@ const Index = () => {
     dispatch(setUserById(userById));
   };
   const handleCoverChange = async (name, value) => {
-    console.log("cover");
+  
     const formData = new FormData();
     Array.from(value).forEach((CoverPicFile) =>
       formData.append("CoverPicFile", CoverPicFile)

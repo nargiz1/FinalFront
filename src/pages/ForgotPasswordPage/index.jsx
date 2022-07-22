@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
 
 import { setReset } from "../../redux/Auth/AuthSlice";
 import * as authServices from "../../services/AuthService";
@@ -8,7 +11,8 @@ import * as authServices from "../../services/AuthService";
 const Index = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [forgotData, setForgotData] = useState("");
+  const [disabled, setDisabled] = useState(true);
+
 
   const backToLogin = {
     textDecoration: "none",
@@ -16,27 +20,52 @@ const Index = () => {
     fontStyle:"italic"
   };
 
-  const handleChange = (value) => {
-    setForgotData(value);
-  };
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email("Invalid email.")
+      .required("Email is required.")
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      email: ""
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      // console.log("values formik: ", values);
+    },
+  });
+
+
+  useEffect(() => {
+    if (Object.entries(formik.errors).length === 0 && Object.entries(formik.touched).length !== 0) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [formik]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (forgotData !== "") {
       try {
-        const resp = await authServices.ForgotPasswordService(forgotData);
+        const resp = await authServices.ForgotPasswordService(formik.values.email);
         if (resp) {
           sessionStorage.setItem("resetToken", resp);
-          sessionStorage.setItem("currentMail", forgotData);
+          sessionStorage.setItem("currentMail", formik.values);
           dispatch(setReset(resp));
+          toast.success(
+            "Check your email address to reset your password!"
+          );
+          
         }
-
       } catch (error) {
         console.log("error: ", error);
       }
-      navigate("/")
-    }
+      const timer = setTimeout(() => {
+        navigate("/")
+      }, 3000);
+      
+  
   };
   return (
     <div className="container">
@@ -54,10 +83,20 @@ const Index = () => {
                   required
                   className="custom-input w-100 shadow-none"
                   type="email"
-                  name="mail"
+                  name="email"
                   placeholder="Email"
-                  onChange={(e) => handleChange(e.target.value)}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  style={
+                    formik.touched.email && formik.errors.email
+                      ? { border: "1px solid red" }
+                      : null
+                  }
+                  value={formik.values.email}
                 />
+                  {formik.touched.email && formik.errors.email && (
+                    <p style={{ color: "red",fontSize:"13px" }}>{formik.errors.email}</p>
+                  )}
               </div>
               <div className="d-flex justify-content-between align-items-center">
                 <div>
@@ -70,6 +109,8 @@ const Index = () => {
                     className=" w-100 fw-bold"
                     type="submit"
                     onClick={handleSubmit}
+                    disabled={disabled}
+                    style={ disabled ? { backgroundColor: 'grey', color: '#fff', cursor: 'not-allowed' } : null}
                   >
                     Send
                   </button>

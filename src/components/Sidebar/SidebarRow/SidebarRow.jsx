@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 import "../SidebarRow/SidebarRow.css";
 
-function SidebarRow({ src, Icon, title, link, color, isOpen }) {
+function SidebarRow({ Icon, title, link, color, isOpen }) {
 
   return (
     <div className={`sidebarRow align-items-center`}>

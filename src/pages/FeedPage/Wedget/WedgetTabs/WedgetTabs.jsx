@@ -16,15 +16,23 @@ export default function WedgetTabs() {
   const currentUser = useSelector((state) => state.user.currentUser);
   const following = useSelector((state) => state.follow.following);
   const followers = useSelector((state) => state.follow.followers);
-
-  const [value, setValue] = React.useState(0);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async function () {
+      const currentUser = await userServices.getUserService();
+      const following = await followServices.getSubscribesService(currentUser);
+      const followers = await followServices.getFollowersService(currentUser);
+      dispatch(setCurrentUser(currentUser));
+      dispatch(setFollowers(followers));
+      dispatch(setFollowing(following));
+    })();
+  }, [dispatch]);
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
- 
 
   return (
     <>
@@ -36,9 +44,8 @@ export default function WedgetTabs() {
         <TabPanel value={value} index={0}>
           {following && following.length > 0
             ? following.map((f, index) => (
-              <Link to={`user/${f.id}`} className="text-decoration-none text-black">
+              <Link to={`user/${f.id}`}  key={index} className="text-decoration-none text-black">
                 <div
-                  key={index}
                   className="d-flex align-items-center mb-3 text-dark text-decoration-none"
                 >
                   {
@@ -67,11 +74,10 @@ export default function WedgetTabs() {
             : ("You don't follow anybody.")}
         </TabPanel>
         <TabPanel value={value} index={1}>
-        {followers && following.length > 0
+        {followers && followers.length > 0
             ? followers.map((f, index) => (
-              <Link to={`user/${f.id}`} className="text-decoration-none text-black">
+              <Link to={`user/${f.id}`} key={index} className="text-decoration-none text-black">
                 <div
-                  key={index}
                   className="d-flex align-items-center mb-3 text-dark text-decoration-none"
                 >
                   {
@@ -95,7 +101,7 @@ export default function WedgetTabs() {
                     )
                   }
                 
-                  <div className="ms-2">{f.userName}</div>
+                  <div className="ms-2">@{f.userName}</div>
                 </div>
               </Link>
               ))
