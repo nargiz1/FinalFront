@@ -14,7 +14,7 @@ import Carousel from "react-bootstrap/Carousel";
 import {  setPosts } from "../../redux/Post/PostSlice";
 import Modal from "react-bootstrap/Modal";
 
-const Post = ({ post, likeTest, setLikeTest }) => {
+const Post = ({ post, likeTest, setLikeTest, userById }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
   const isClickedLike = useSelector((state) => state.post.isClickedLike);
@@ -40,6 +40,7 @@ const Post = ({ post, likeTest, setLikeTest }) => {
       try {
         const resp = await commentServices.CommentPostService(createComment);
         getAllPosts();
+        getUserPosts();
       } catch (error) {
         console.log("error: ", error);
       }
@@ -50,14 +51,20 @@ const Post = ({ post, likeTest, setLikeTest }) => {
     const data = await postServices.getAllPostsService();
     dispatch(setPosts(data));
   };
+  const getUserPosts = async () => {
+    const userPosts = await postServices.getUserPostsService(userById);
+    dispatch(setUserPosts(userPosts));
+  }
 
   const deletePost = async (id) => {
     await postServices.deletePostService(id);
     getAllPosts();
+    getUserPosts();
   };
   const deleteComment = async (id) => {
     await commentServices.deleteCommentService(id);
     getAllPosts();
+    getUserPosts();
   };
 
   const handleLikePost = async (e, id) => {
@@ -73,6 +80,7 @@ const Post = ({ post, likeTest, setLikeTest }) => {
     }
 
     getAllPosts();
+    getUserPosts();
   };
 
   const isExistLikedUser = post.likes?.some(

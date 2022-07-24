@@ -56,6 +56,7 @@ function Feed() {
                 <Post
                   post={item}
                   likeTest={likeTest}
+                  userById={userById}
                   setLikeTest={setLikeTest}
                 />)
                 : 
