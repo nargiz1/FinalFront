@@ -11,7 +11,7 @@ import * as likeServices from "../../services/LikeService";
 import "./Post.css";
 import Moment from "react-moment";
 import Carousel from "react-bootstrap/Carousel";
-import {  setPosts } from "../../redux/Post/PostSlice";
+import {  setPosts, setUserPosts } from "../../redux/Post/PostSlice";
 import Modal from "react-bootstrap/Modal";
 
 const Post = ({ post, likeTest, setLikeTest, userById }) => {

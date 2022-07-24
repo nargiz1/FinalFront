@@ -27,7 +27,7 @@ const Index = ({ user }) => {
   const [likeTest, setLikeTest] = useState(false);
   const userById = useSelector((state) => state.user.userById);
   const currentUser = useSelector((state) => state.user.currentUser);
-  console.log("usertab",currentUser);
+  console.log("usertab", currentUser);
   const userPostsData = useSelector((state) => state.post.userPosts);
 
   const followersData = useSelector((state) => state.follow.followers);
@@ -117,6 +117,7 @@ const Index = ({ user }) => {
                   <div key={index}>
                     <Post
                       post={item}
+                      userById={userById}
                       likeTest={likeTest}
                       setLikeTest={setLikeTest}
                     />
@@ -199,12 +200,14 @@ const Index = ({ user }) => {
                       SocialMedia Link |
                       {userById?.socialMediaLinks?.map((item, index) => (
                         <div key={index}>
-                          <span  className="about-data" style={{wordBreak: "break-all"}}>
-                          {item.link}
+                          <span
+                            className="about-data"
+                            style={{ wordBreak: "break-all" }}
+                          >
+                            {item.link}
                           </span>
                         </div>
                       ))}
-                      
                     </li>
                   ) : null}
                 </ul>
