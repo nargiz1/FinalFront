@@ -60,7 +60,7 @@ const Index = ({joinRoom, users, sendMessage, messages1, closeConnection}) => {
         userId: user.id,
         privateChatId: chat,
       }
-      // const resp = await messageService.MessagesAreRead(msg);
+      const resp = await messageService.MessagesAreRead(msg);
       const messages = await messageService.getChatMessages(privateChat.id);
       dispatch(setPrivateChat(privateChat));
       dispatch(setMessage(messages));
@@ -76,7 +76,7 @@ const Index = ({joinRoom, users, sendMessage, messages1, closeConnection}) => {
         userId: user.id,
         groupChatId: group.id,
       }
-      // const resp = await messageService.MessagesAreRead(msg);
+      const resp = await messageService.MessagesAreRead(msg);
       const messages = await messageService.getGroupMessages(groupChat);
       dispatch(setGroupChat(groupChat));
       dispatch(setGroupChatMembers(groupChatMembers));

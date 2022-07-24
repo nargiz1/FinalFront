@@ -191,6 +191,22 @@ const Index = ({ user }) => {
                       </span>
                     </li>
                   ) : null}
+                  {userById?.socialMediaLinks !== "" ? (
+                    <li>
+                      <i>
+                        <AiFillHeart style={{ color: "#EF4444" }} />
+                      </i>
+                      SocialMedia Link |
+                      {userById?.socialMediaLinks?.map((item, index) => (
+                        <div key={index}>
+                          <span  className="about-data" style={{wordBreak: "break-all"}}>
+                          {item.link}
+                          </span>
+                        </div>
+                      ))}
+                      
+                    </li>
+                  ) : null}
                 </ul>
                 {userById.id == currentUser.id ? (
                   <Link to={`/setting`}>

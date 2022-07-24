@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { BiMessageDetail} from "react-icons/bi";
@@ -7,6 +8,11 @@ import { CgProfile } from "react-icons/cg";
 import { AiFillHome} from "react-icons/ai";
 import { RiFlag2Fill,RiLockPasswordLine } from "react-icons/ri";
 import * as authServices from "../../services/AuthService";
+import * as chatService from "../../services/ChatSevice";
+import { setPrivateChats } from "../../redux/Chat/PrivateChatSlice";
+import * as UserService from "../../services/UserService";
+import { setCurrentUser } from "../../redux/User/UserSlice";
+
 
 import { setLogin } from "../../redux/Auth/AuthSlice";
 import "../Sidebar/Sidebar.css";
@@ -25,6 +31,18 @@ function Sidebar({ isOpen }) {
     navigate("/");
     
   };
+
+  const privateChats = useSelector((state) => state.privateChat.privateChats);
+  const user = useSelector((state) => state.user.currentUser);
+
+  useEffect(() => {
+    (async function () {
+      const user = await UserService.getUserService();
+      const privateChats = await chatService.getUserChats(user);
+      dispatch(setCurrentUser(user));
+      dispatch(setPrivateChats(privateChats));
+    })();
+  }, [dispatch]);
 
   return (
     <div
@@ -60,71 +78,37 @@ function Sidebar({ isOpen }) {
             color="#6366F1"
             isOpen={isOpen}
           />
-        {/* <SidebarRow
-          Icon={MdGroups}
-          title="Groups"
-          link="groups"
-          color="#EF4444"
-          isOpen={isOpen}
-        /> */}
-
-        {show ? (
-          <>
-          {/* <SidebarRow
-            Icon={BsFillCameraVideoFill}
-            title="Videos"
-            link="videos"
-            color="#3B82F6"
-            isOpen={isOpen}
-          /> */}
-            {/* <SidebarRow
-              Icon={HiPhotograph}
-              title="Photos"
-              link="photos"
-              color="#EC4899"
-              isOpen={isOpen}
-            /> */}
-            {/* <SidebarRow
-              Icon={BsFillBagFill}
-              title="Products"
-              link="products"
-              color="#10B981"
-              isOpen={isOpen}
-            /> */}
-          </>
-        ) : null}
-
-        {/* {isOpen ? (
-          <button
-            className="more-less d-flex mb-2"
-            onClick={() => setShow(!show)}
-          >
-            <div>
-              <MdOutlineKeyboardArrowDown />
-            </div>
-            {show ? "See Less" : "See More"}
-          </button>
-        ) : null} */}
       </div>
       <div className="sidebar-middle border-bottom pt-3">
-        {isOpen ? <h3 className="mb-3 ps-2">Contacts</h3> : null}
-
-        <div className="contact-person">
-          <a
-            href="#"
-            className="d-flex align-items-center text-dark text-decoration-none"
-          >
-            <div>
-              <img
-                className="profile-photo"
-                src={require("../../helpers/images/avatar3.jpg")}
-                alt="profile-photo"
-              />
+          {isOpen ? <h3 className="mb-3 ps-2">Contacts</h3> : null}
+          {privateChats?.map((chat, index) => (
+            <div className="contact-person" onClick={(e) => navigate(`/messages?chat=${chat.id}`)}>
+              <a
+                className="d-flex align-items-center text-dark text-decoration-none"
+              >
+                <div>
+                  <img
+                    className="profile-photo"
+                    src={
+                      "http://localhost:39524/" +
+                      (chat.userTwo.userName == user.userName
+                        ? chat.userOne.imageUrl
+                        : chat.userTwo.imageUrl)
+                    }
+                    alt="profile-photo"
+                  />
+                </div>
+                {isOpen ? (
+                  chat.userTwo.userName == user.userName ? (
+                    <h4>{chat.userOne.fullName}</h4>
+                  ) : (
+                    <h4>{chat.userTwo.fullName}</h4>
+                  )
+                ) : null}
+              </a>
             </div>
-            {isOpen ? <h4>Fidan Ganbarli</h4> : null}
-          </a>
+          ))}
         </div>
-      </div>
       <div className="sidebar-bottom border-bottom pt-3">
         {isOpen ? <h3 className="mb-3 ps-2">Pages</h3> : null}
 

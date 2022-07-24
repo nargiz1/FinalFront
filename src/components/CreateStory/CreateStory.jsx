@@ -41,7 +41,7 @@ const CreateStory = () => {
   return (
     <div className="d-flex align-items-center mb-3">
       <div className="add-story">
-        <label htmlFor="photo">
+        <label htmlFor="story-photo">
           <div className="photo-icon">
             <IoMdAdd />
           </div>
@@ -49,7 +49,7 @@ const CreateStory = () => {
         <input
           type="file"
           accept="image/*, video/*"
-          id="photo"
+          id="story-photo"
           className="custom-file-upload d-none"
           name="File"
           onChange={(e) => handleStoryChange("File", e.target.files)}

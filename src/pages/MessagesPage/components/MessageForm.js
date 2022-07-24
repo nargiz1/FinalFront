@@ -43,10 +43,6 @@ export function MessageForm({ sendMessage, usersInRoom }) {
     }
   }
 
-  const sendFile = async (e) => {
-    
-  }
-
   return (
     <div className="send-area border-top">
       <div className="row d-flex justify-content-between align-items-center position-relative">
@@ -64,23 +60,6 @@ export function MessageForm({ sendMessage, usersInRoom }) {
               onChange={e => handleChange(e.target.name, e.target.value)}
             />
           </form>
-        </div>
-        <div className="col-md-1 col-sm-2">
-          <div className="profile-upload file-upload ">
-            <label htmlFor="photo">
-              <div className="photo-icon share-button">
-                < MdOutlineIosShare />
-              </div>
-            </label>
-            <input
-              type="file"
-              accept="*"
-              id="photo"
-              className="custom-file-upload d-none"
-              name="File"
-              multiple
-            />
-          </div>
         </div>
         <div className="col-md-1 col-sm-2">
           <button className="send-button"
