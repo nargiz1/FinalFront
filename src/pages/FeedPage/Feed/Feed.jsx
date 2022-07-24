@@ -57,10 +57,12 @@ function Feed() {
                   post={item}
                   likeTest={likeTest}
                   setLikeTest={setLikeTest}
-                />
-              ) : (
-                <Advertisement adv={item} />
-              )}
+                />)
+                : 
+                (
+                  <Advertisement adv={item} />
+                )
+              }
             </div>
           ))
         : null}

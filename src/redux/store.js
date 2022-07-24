@@ -5,6 +5,9 @@ import followReducer from './Follow/FollowSlice';
 import userReducer from './User/UserSlice';
 import advReducer from './Adv/AdvSlice';
 import storyReducer from './Story/StorySlice';
+import messageReducer from './Message/MessageSlice';
+import privateChatReducer from './Chat/PrivateChatSlice';
+import groupChatReducer from './Chat/GroupChatSlice';
 
 const store = configureStore({
   reducer: {
@@ -13,7 +16,10 @@ const store = configureStore({
     follow: followReducer,
     user: userReducer,
     adv: advReducer,
-    story:storyReducer
+    story:storyReducer,
+    message: messageReducer,
+    privateChat: privateChatReducer,
+    groupChat: groupChatReducer,
   },
 });
 

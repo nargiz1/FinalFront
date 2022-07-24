@@ -1,3 +1,14 @@
+.profile-upload{
+  position: absolute;
+  font-size: 22px;
+  bottom: 0px;
+}
+.img{
+  bottom: -50px;
+}
+.file-upload{
+  right: 8%;
+}
 .profile-photo {
   width: 40px;
   height: 40px;
@@ -20,6 +31,7 @@
 } */
 .message-content {
   padding: 10px;
+  cursor: pointer;
 }
 .message-content:hover {
   background-color: #fafafa;
@@ -245,8 +257,8 @@ select:focus {
   overflow: hidden;
 }
 
-.tabs [className^="tab"] label,
-.tabs [className*=" tab"] label {
+.tabs [class^="tab"] label,
+.tabs [class*=" tab"] label {
   color: #999499;
   cursor: pointer;
   display: block;
@@ -257,8 +269,8 @@ select:focus {
   text-align: center;
 }
 
-.tabs [className^="tab"] [type="radio"],
-.tabs [className*=" tab"] [type="radio"] {
+.tabs [class^="tab"] [type="radio"],
+.tabs [class*=" tab"] [type="radio"] {
   border-bottom: 1px solid rgba(239, 237, 239, 0.5);
   cursor: pointer;
   -webkit-appearance: none;
@@ -272,21 +284,21 @@ select:focus {
   transition: all 0.3s ease-in-out;
 }
 
-.tabs [className^="tab"] [type="radio"]:focus,
-.tabs [className*=" tab"] [type="radio"]:focus {
+.tabs [class^="tab"] [type="radio"]:focus,
+.tabs [class*=" tab"] [type="radio"]:focus {
   border-bottom: 1px solid #fd264f;
 }
 
-.tabs [className^="tab"] [type="radio"]:checked,
-.tabs [className*=" tab"] [type="radio"]:checked {
+.tabs [class^="tab"] [type="radio"]:checked,
+.tabs [class*=" tab"] [type="radio"]:checked {
   border-bottom: 2px solid #fd264f;
 }
-.tabs [className^="tab"] [type="radio"]:checked + div,
-.tabs [className*=" tab"] [type="radio"]:checked + div {
+.tabs [class^="tab"] [type="radio"]:checked + div,
+.tabs [class*=" tab"] [type="radio"]:checked + div {
   opacity: 1;
 }
-.tabs [className^="tab"] [type="radio"] + div,
-.tabs [className*=" tab"] [type="radio"] + div {
+.tabs [class^="tab"] [type="radio"] + div,
+.tabs [class*=" tab"] [type="radio"] + div {
   display: block;
   opacity: 0;
   padding: 2rem 0;
@@ -326,4 +338,3 @@ select:focus {
   background-color: #888888;
   font-size: 19px;
 }
-

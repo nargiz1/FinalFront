@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Layout from "../../components/Layout";
 import UserTabs from "../UserPage/UserTabs/index";
 import * as postServices from "../../services/PostService";
@@ -11,14 +11,19 @@ import { setFollowing, setFollowers } from "../../redux/Follow/FollowSlice";
 import "../UserPage/index.css";
 import { AiOutlinePlus } from "react-icons/ai";
 import * as followServices from "../../services/FollowService";
+import * as chatServices from "../../services/ChatSevice";
+import { setChatExists } from '../../redux/Chat/PrivateChatSlice';
 
-const Index = () => {
+const Index = ({joinRoom}) => {
   const user = useSelector((state) => state.user.userById);
   const currentUser = useSelector((state) => state.user.currentUser);
   const following = useSelector((state) => state.follow.following);
   const followers = useSelector((state) => state.follow.followers);
+  const chatExists = useSelector((state) => state.privateChat.chatExists);
   const dispatch = useDispatch();
   const { userId } = useParams();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     (async function () {
@@ -26,6 +31,8 @@ const Index = () => {
       const userPosts = await postServices.getUserPostsService(user);
       const following = await followServices.getSubscribesService(user);
       const followers = await followServices.getFollowersService(user);
+      const doesntExist = await chatServices.ChatDoesntExist(user);
+      dispatch(setChatExists(doesntExist));
       dispatch(setUserById(user));
       dispatch(setUserPosts(userPosts));
       dispatch(setFollowers(followers));
@@ -68,6 +75,19 @@ const Index = () => {
     const userById = await userServices.getUserByIdService(userId);
     dispatch(setUserById(userById));
   };
+
+  const createMessage = async (e) => {
+    e.preventDefault();
+    const privateChat = {
+      userOneId: user.id,
+      userTwoId: currentUser.id
+    }
+    const resp = await chatServices.CreateChat(privateChat);
+    const doesntExist = await chatServices.ChatDoesntExist(user)
+    dispatch(setChatExists(doesntExist));
+    joinRoom(currentUser.userName, resp.id.toString())
+    navigate(`/messages?chat=${resp.id}`)
+  }
 
   return (
     <Layout>
@@ -170,29 +190,10 @@ const Index = () => {
              
                   {user?.id !== currentUser?.id ? (
                     <div className="d-flex w-100 justify-content-center align-items-center mt-3">
-                      <button className="btn btn-primary">Message</button>
-                      {/* {Boolean(following.find((f) => f.id === user.id)) ?
-                       (
-                        <button
-                          className="following-button btn btn-secondary"
-                          onClick={(e) => {
-                            handleUnfollow(user.id);
-                            e.stopPropagation();
-                          }}
-                        >
-                          Unfollow
-                        </button>
-                      ) : (
-                        <button
-                          className="follow-button"
-                          onClick={(e) => {
-                            handleFollow(user.id);
-                            e.stopPropagation();
-                          }}
-                        >
-                          Follow
-                        </button>
-                      )} */}
+                      {console.log(chatExists)}
+                      {chatExists === true && (
+                        <button className="btn btn-primary" onClick={createMessage}>Message</button>
+                      )}
                     </div>
                   ) : null}
                 </div>
