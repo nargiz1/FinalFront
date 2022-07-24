@@ -44,18 +44,18 @@
     background-color: #3F3D56;
 }
 .chat-button{
-    width: 50px;
-    height: 50px;
-    line-height: 23px;
-    font-size: 29px;
-    border-radius: 100%;
-    border: none;
-    position: absolute;
-    bottom: 25px;
-    right: 25px;
-    background-color: #5850EC;
-    color: white;
-    position: fixed;
+  width: 40px;
+  height: 40px;
+  line-height: 19px;
+  font-size: 21px;
+  border-radius: 100%;
+  border: none;
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+  background-color: #5850EC;
+  color: white;
+  position: fixed;
 }
 .offcanvas{
     width: 310px!important;

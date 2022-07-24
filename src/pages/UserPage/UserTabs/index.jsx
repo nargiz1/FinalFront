@@ -27,6 +27,7 @@ const Index = ({ user }) => {
   const [likeTest, setLikeTest] = useState(false);
   const userById = useSelector((state) => state.user.userById);
   const currentUser = useSelector((state) => state.user.currentUser);
+  console.log("usertab",currentUser);
   const userPostsData = useSelector((state) => state.post.userPosts);
 
   const followersData = useSelector((state) => state.follow.followers);

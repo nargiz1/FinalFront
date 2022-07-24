@@ -5,7 +5,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { MdVideoCall } from "react-icons/md";
 import "./CreatePost.css";
-import { setPosts } from "../../redux/Post/PostSlice";
+import { setPosts,setUserPosts } from "../../redux/Post/PostSlice";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import * as userServices from "../../services/UserService";
@@ -58,7 +58,19 @@ const CreatePost = () => {
     const timer = setTimeout(async () => {
       const data = await postServices.getAllPostsService();
       dispatch(setPosts(data));
-    }, 2000);
+      const userPosts = await postServices.getUserPostsService(currentUser);
+      dispatch(setUserPosts(userPosts));
+    }, 1000);
+    
+    setCreatePost({
+      Text: "",
+      IsPrivate: false,
+      Location: "",
+      ImageFiles: [],
+      VideoFiles: [],
+      PublicationTime: "",
+    })
+
   };
 
   return (
