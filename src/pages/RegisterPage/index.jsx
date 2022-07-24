@@ -73,7 +73,6 @@ const Index = () => {
     e.preventDefault();
     try {
       const resp = await authServices.RegisterService(formik.values);
-      console.log(resp);
       if (resp) {
         toast.success(
           "User was registered successfully,check your email address to confirm your account!"

@@ -30,3 +30,18 @@ export async function createStoryService(formData) {
       console.log("err: ", error);
     }
   };
+  export async function getAllStoriesService() {
+    try {
+      return await (
+        await Axios.get(`/api/Story/getAll`, {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },   
+        })
+        ).data;
+    } catch (error) {
+      console.log("err: ", error);
+    }
+  };

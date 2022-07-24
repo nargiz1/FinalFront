@@ -1,18 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { IoMdAdd } from "react-icons/io";
 import Carousel from "../Carousel/Carousel";
-import * as storyServices from "../../services/StoryService";
 import "./CreateStory.css";
+import * as storyServices from "../../services/StoryService";
+import { setStories } from "../../redux/Story/StorySlice";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 const CreateStory = () => {
+  const dispatch = useDispatch();
+  const stories = useSelector((state) => state.story.stories);
+  const [show, setShow] = useState(false);
+  const [selectedStory, setSelectedStory] = useState({});
+
+  const handleClose = () => setShow(false);
+  const handleShow = (id) => {
+    let findSelectedStory = stories.find((item) => item.id === id);
+    setSelectedStory(findSelectedStory);
+    setShow(true);
+  };
+
+  useEffect(() => {
+    (async function () {
+      const allStories = await storyServices.getAllStoriesService();
+      dispatch(setStories(allStories));
+    })();
+  }, [dispatch]);
+
   const handleStoryChange = async (name, value) => {
     const formData = new FormData();
-    Array.from(value).forEach((File) =>
-      formData.append("File", File)
-    );
-   const resp= await storyServices.createStoryService(formData);
-   await storyServices.storyExpireService(resp.id);
+    Array.from(value).forEach((File) => formData.append("File", File));
+    const resp = await storyServices.createStoryService(formData);
+    await storyServices.storyExpireService(resp.id);
+    const allStories = await storyServices.getAllStoriesService();
+    dispatch(setStories(allStories));
 
-    
     // const userById = await userServices.getUserByIdService(userId);
     // dispatch(setUserById(userById));
   };
@@ -30,50 +52,65 @@ const CreateStory = () => {
           id="photo"
           className="custom-file-upload d-none"
           name="File"
-          onChange={(e) =>
-            handleStoryChange("File", e.target.files)
-          }
+          onChange={(e) => handleStoryChange("File", e.target.files)}
         />
       </div>
       <div className="stories w-100">
         <Carousel mdViewCount={3}>
-          <div className="story-wrapper">
-            <div className="story-owner">
-              <img
-                src={require("../../helpers/images/avatar.jpg")}
-                alt="user"
-                className="w-100"
-              />
-            </div>
-            <div className="story">
-              <img
-                src={require("../../helpers/images/story1.jpg")}
-                alt="story"
-                className="w-100 h-100"
-              />
-            </div>
-          </div>
-          <div className="story-wrapper">
-            <div className="story-owner">
-              <img
-                src={require("../../helpers/images/avatar.jpg")}
-                alt="user"
-                className="w-100"
-              />
-            </div>
-            <div className="story">
-              <img
-                src={require("../../helpers/images/story1.jpg")}
-                alt="story"
-                className="w-100 h-100"
-              />
-            </div>
-          </div>
-        
-         
-
+          {stories && stories.length > 0
+            ? stories.map((story, index) => (
+                <div key={index} className="story-wrapper">
+                  <div
+                    className="story-owner"
+                    onClick={() => handleShow(story.id)}
+                  >
+                    {story?.user?.imageUrl === null ? (
+                      <img
+                        src={require("../../helpers/images/avatar.jpg")}
+                        alt="user"
+                        className="w-100"
+                      />
+                    ) : (
+                      <img
+                        src={"http://localhost:39524/" + story?.user?.imageUrl}
+                        alt="user"
+                        className="w-100"
+                      />
+                    )}
+                  </div>
+                </div>
+              ))
+            : null}
         </Carousel>
       </div>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title className="text-lowercase">
+            @{selectedStory?.user?.userName}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="story">
+            {selectedStory?.imageUrl !== null ? (
+              <img
+                src={"http://localhost:39524/" + selectedStory?.imageUrl}
+                alt="story"
+                className="w-100 h-100"
+              />
+            ) : (
+              <video controls className="w-100">
+                <source
+                  style={{ height: "257px" }}
+                  src={"http://localhost:39524/" + selectedStory?.videoUrl}
+                  type="video/mp4"
+                  alt="video"
+                />
+              </video>
+            )}
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

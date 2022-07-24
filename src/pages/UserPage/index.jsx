@@ -34,7 +34,6 @@ const Index = () => {
   }, [userId, dispatch]);
 
 
-  console.log('following: ', following);
 
   const handleFollow = async (id) => {
     const data = await followServices.followService(id);
@@ -51,7 +50,6 @@ const Index = () => {
   };
 
   const handleProfileChange = async (name, value) => {
-    console.log("profile");
     const formData = new FormData();
     Array.from(value).forEach((ImageFile) =>
       formData.append("ImageFile", ImageFile)
@@ -135,7 +133,7 @@ const Index = () => {
                     {
                       user.id===currentUser.id &&(
                         <div className="profile-upload">
-                        <label htmlFor="photo">
+                        <label htmlFor="profile-photo">
                           <div className="user-profile-upload">
                             <AiOutlinePlus />
                           </div>
@@ -143,7 +141,7 @@ const Index = () => {
                         <input
                           type="file"
                           accept="images/*"
-                          id="photo"
+                          id="profile-photo"
                           className="custom-file-upload d-none"
                           name="ImageFile"
                           onChange={(e) => {

@@ -4,6 +4,13 @@
 .slick-arrow.slick-next{
   display: none!important;
 }
+.slick-track{
+  margin-left: 0px!important;
+  margin-right: 0px!important;
+}
+.slick-slide{
+  width: 80px!important;
+}
 .register-sign-in{
     color: #3F3D56;
     position: relative;
@@ -15,7 +22,7 @@
 .register-sign-in input{
     height: 44px;
     color: #393939;
-    padding: 0 28px 0 28px;
+    padding: 0 75px 0 28px;
     outline: 0;
     background: #f0f2f5;
     border: 1px solid transparent;

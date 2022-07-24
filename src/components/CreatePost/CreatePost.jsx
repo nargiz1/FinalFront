@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import * as postServices from "../../services/PostService";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaUserAlt } from "react-icons/fa";
-import { HiOutlinePhotograph} from "react-icons/hi";
+import { HiOutlinePhotograph } from "react-icons/hi";
 import { MdVideoCall } from "react-icons/md";
 import "./CreatePost.css";
 import { setPosts } from "../../redux/Post/PostSlice";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import * as userServices from "../../services/UserService";
 import Button from "react-bootstrap/Button";
 import ModalBootstrapt from "react-bootstrap/Modal";
@@ -21,7 +20,6 @@ const CreatePost = () => {
     (async function () {
       const user = await userServices.getUserService();
       dispatch(setCurrentUser(user));
- 
     })();
   }, [dispatch]);
 
@@ -35,16 +33,13 @@ const CreatePost = () => {
   });
   const handleChange = (name, value) => {
     setCreatePost({ ...createPost, [name]: value });
-    console.log(createPost);
-   
   };
   const handleClick = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     const date = new Date();
-    if (createPost.PublicationTime=="") {
+    if (createPost.PublicationTime == "") {
       createPost.PublicationTime = moment(date).format();
-      
     }
     formData.append("PublicationTime", createPost.PublicationTime);
     formData.append("Text", createPost.Text);
@@ -56,16 +51,14 @@ const CreatePost = () => {
     Array.from(createPost.VideoFiles).forEach((VideoFile) =>
       formData.append("VideoFiles", VideoFile)
     );
-    console.log("videof", createPost.ImageFiles);
     formData.append("PublicationTime", createPost.PublicationTime);
 
     await postServices.createPostService(formData);
-   
-    const timer=setTimeout(async ()=>{
+
+    const timer = setTimeout(async () => {
       const data = await postServices.getAllPostsService();
       dispatch(setPosts(data));
-
-    },2000);
+    }, 2000);
   };
 
   return (
@@ -91,7 +84,6 @@ const CreatePost = () => {
           />
 
           <form>
-          
             <div
               className={`modal fade create `}
               id="exampleModal1"
@@ -168,7 +160,6 @@ const CreatePost = () => {
                                 handleChange(e.target.name, e.target.files)
                               }
                             />
-                          
                           </div>
                           <div className="d-flex">
                             <input
@@ -195,23 +186,20 @@ const CreatePost = () => {
                           />
                         </div>
                       </div>
-                        <div className="mt-3">
-                          <label htmlFor="schedule">Schedule post*</label>
-                          <input
-                            type="datetime-local"
-                            id="schedule"
-                            name="PublicationTime"
-                            onChange={(e) =>
-                              handleChange(e.target.name, e.target.value)
-                            }
-                          />
-                        </div>
-
-                 
+                      <div className="mt-3">
+                        <label htmlFor="schedule">Schedule post*</label>
+                        <input
+                          type="datetime-local"
+                          id="schedule"
+                          name="PublicationTime"
+                          onChange={(e) =>
+                            handleChange(e.target.name, e.target.value)
+                          }
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div className="modal-footer d-flex justify-content-between">
-                    <div>Salam</div>
+                  <div className="modal-footer">
                     <button
                       type="submit"
                       className="btn btn-primary "

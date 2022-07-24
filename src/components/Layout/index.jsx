@@ -25,7 +25,7 @@ const Layout = ({ showIcon = true, collapseSidebar = false, children }) => {
     <div className="container-fluid" style={{ paddingTop: "64px" }}>
       <div className="row">
         <div className="col-12">
-          <Header showIcon={showIcon} setIsOpen={setIsOpen} isOpen={isOpen} handleShow={handleShow}/>
+          <Header showIcon={showIcon} setIsOpen={setIsOpen} isOpen={isOpen} handleShow={handleShow} />
         </div>
       </div>
       <div className="row">

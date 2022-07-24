@@ -27,7 +27,6 @@ const Index = ({ user }) => {
   const [likeTest, setLikeTest] = useState(false);
   const userById = useSelector((state) => state.user.userById);
   const currentUser = useSelector((state) => state.user.currentUser);
-  console.log("current uer",currentUser);
   const userPostsData = useSelector((state) => state.post.userPosts);
 
   const followersData = useSelector((state) => state.follow.followers);
@@ -36,7 +35,6 @@ const Index = ({ user }) => {
     skip: 0,
     limit: 3,
   });
-  console.log(pagination);
 
   const page_limit = 3;
 
@@ -47,7 +45,6 @@ const Index = ({ user }) => {
       pagination.skip,
       pagination.limit
     );
-  
   };
 
   const handleShowMore = (e, _limit) => {
@@ -76,7 +73,6 @@ const Index = ({ user }) => {
     (async function () {
       const user = await userServices.getUserByIdService(userId);
       const userPostsData = await postServices.getUserPostsService(user);
-      console.log("userPostsData",userPostsData);
       dispatch(setUserPosts(userPostsData));
     })();
   }, [likeTest, dispatch]);
@@ -114,19 +110,16 @@ const Index = ({ user }) => {
         <TabPanel value={value} index={0}>
           <div className="row d-flex justify-content-center">
             <div className="col-lg-6 col-md-8">
-              {
-                currentUser.id===userById.id?(
-                  <CreatePost />
-                ):null
-              }
+              {currentUser.id === userById.id ? <CreatePost /> : null}
               {userPostsData && userPostsData?.userPosts?.length > 0 ? (
                 userPostsData?.userPosts?.map((item, index) => (
-                  <Post
-                    post={item}
-                    key={index}
-                    likeTest={likeTest}
-                    setLikeTest={setLikeTest}
-                  />
+                  <div key={index}>
+                    <Post
+                      post={item}
+                      likeTest={likeTest}
+                      setLikeTest={setLikeTest}
+                    />
+                  </div>
                 ))
               ) : (
                 <div className="mt-3">User doesn't have any post</div>
@@ -216,28 +209,28 @@ const Index = ({ user }) => {
                     ? followersData.map((follower, index) => (
                         <div key={index} className="col-md-3">
                           <div className="friend-card mb-3">
-                              <Link
-                                to={`/user/${follower.id}`}
-                                className="text-decoration-none"
-                              >
-                            <div className="friend-card-img">
-                              {follower?.imageUrl === null ? (
-                                <img
-                                  src={require("../../../helpers/images/avatar.jpg")}
-                                  className="w-100 follower-img"
-                                  alt="follower"
-                                />
-                              ) : (
-                                <img
-                                  src={
-                                    "http://localhost:39524/" +
-                                    follower?.imageUrl
-                                  }
-                                  className="w-100"
-                                  alt="follower"
-                                />
-                              )}
-                            </div>
+                            <Link
+                              to={`/user/${follower.id}`}
+                              className="text-decoration-none"
+                            >
+                              <div className="friend-card-img">
+                                {follower?.imageUrl === null ? (
+                                  <img
+                                    src={require("../../../helpers/images/avatar.jpg")}
+                                    className="w-100 follower-img"
+                                    alt="follower"
+                                  />
+                                ) : (
+                                  <img
+                                    src={
+                                      "http://localhost:39524/" +
+                                      follower?.imageUrl
+                                    }
+                                    className="w-100"
+                                    alt="follower"
+                                  />
+                                )}
+                              </div>
                               <div className="friend-card-info">
                                 <div className="followers-name text-lowercase text-center">
                                   @{follower.userName}
@@ -245,20 +238,17 @@ const Index = ({ user }) => {
                               </div>
                             </Link>
                             <div>
-                              {
-                                currentUser.id===userById.id?(
-                              <button
-                                type="submit"
-                                className="w-100 btn-following"
-                                onClick={(e) => {
-                                  deleteFollower(e, follower.id);
-                                }}
-                              >
-                                Delete
-                              </button>
-
-                                ):null
-                              }
+                              {currentUser.id === userById.id ? (
+                                <button
+                                  type="submit"
+                                  className="w-100 btn-following"
+                                  onClick={(e) => {
+                                    deleteFollower(e, follower.id);
+                                  }}
+                                >
+                                  Delete
+                                </button>
+                              ) : null}
                             </div>
                           </div>
                         </div>
@@ -277,11 +267,11 @@ const Index = ({ user }) => {
                   {followingData && followingData.length > 0
                     ? followingData.map((following, index) => (
                         <div key={index} className="col-md-3">
-                            <div className="friend-card mb-3">
-                          <Link
-                            to={`/user/${following.id}`}
-                            className="text-decoration-none"
-                          >
+                          <div className="friend-card mb-3">
+                            <Link
+                              to={`/user/${following.id}`}
+                              className="text-decoration-none"
+                            >
                               <div className="friend-card-img">
                                 {following?.imageUrl === null ? (
                                   <img
@@ -304,10 +294,9 @@ const Index = ({ user }) => {
                                   @{following.userName}
                                 </div>
                               </div>
-                                </Link>
-                              <div>
-                                {
-                                  currentUser.id===userById.id?(
+                            </Link>
+                            <div>
+                              {currentUser.id === userById.id ? (
                                 <button
                                   className="w-100 btn-following"
                                   onClick={(e) => {
@@ -316,11 +305,9 @@ const Index = ({ user }) => {
                                 >
                                   Unfollow
                                 </button>
-
-                                  ):null
-                                }
-                              </div>
+                              ) : null}
                             </div>
+                          </div>
                         </div>
                       ))
                     : "You don't follow anybody."}

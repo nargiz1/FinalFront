@@ -11,9 +11,8 @@ import { BsFillArrowDownCircleFill } from "react-icons/bs";
 
 function Feed() {
   const dispatch = useDispatch();
-  var advIndex=0;
+  var advIndex = 0;
   const data = useSelector((state) => state.post.posts);
-  console.log("user",data.allPosts)
   const advs = useSelector((state) => state.adv.adv);
   const [likeTest, setLikeTest] = useState(false);
   const [pagination, setPagination] = useState({
@@ -28,7 +27,6 @@ function Feed() {
       pagination.skip,
       pagination.limit
     );
-    console.log("response data",responseData);
     dispatch(setPosts(responseData));
   };
 
@@ -38,9 +36,9 @@ function Feed() {
   };
 
   useEffect(() => {
-    (async function() {
+    (async function () {
       fetchData();
-      const advs=await advServices.getAllAdv();
+      const advs = await advServices.getAllAdv();
       dispatch(setAdvs(advs));
     })();
   }, [likeTest, pagination, dispatch]);
@@ -51,30 +49,29 @@ function Feed() {
     <div className="feed">
       <CreatePost />
 
-      {data && data?.allPosts?.length > 0?
-       
-       data.allPosts.map((item, index) => (
-        <>
-        {item.comments ? (
+      {data && data?.allPosts?.length > 0
+        ? data.allPosts.map((item, index) => (
+            <div key={index}>
+              {item.comments ? (
                 <Post
                   post={item}
-                  key={index}
                   likeTest={likeTest}
                   setLikeTest={setLikeTest}
-                />)
-                : 
-                (
-                  <Advertisement adv={item} />
-                )
-              }
-        </>
-            ))
+                />
+              ) : (
+                <Advertisement adv={item} />
+              )}
+            </div>
+          ))
         : null}
 
       {pagination.limit < data.count ? (
         <div className="d-flex justify-content-center mb-3">
-          <div onClick={(e) => handleShowMore(e, visitedPage)} className="show-more">
-           <BsFillArrowDownCircleFill/>
+          <div
+            onClick={(e) => handleShowMore(e, visitedPage)}
+            className="show-more"
+          >
+            <BsFillArrowDownCircleFill />
           </div>
         </div>
       ) : null}

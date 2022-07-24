@@ -29,9 +29,7 @@ const Index = () => {
     const resp = await userServices.SearchUserService(searchUser);
     setUserData(resp);
     setShowData(true);
-    console.log("searching user resp", resp);
   };
-  console.log(data);
   return (
     <Layout showIcon={false}>
       <div className="chat-content">
@@ -207,9 +205,8 @@ const Index = () => {
                                       //   </Link>
                                       //   <div className="add-member-btn member-btn">+</div>
                                       // </div>
-                                      <div className="member-wrapper">
+                                      <div className="member-wrapper" key={index}>
                                         <div
-                                          key={index}
                                           className="d-flex align-items-center justify-content-between"
                                         >
                                           <Link

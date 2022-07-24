@@ -6,8 +6,8 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import * as authServices from "../../services/AuthService";
 import * as userServices from "../../services/UserService";
-import { setLogin } from "../../redux/Auth/AuthSlice";
 import { setCurrentUser } from "../../redux/User/UserSlice";
+import { setLogin } from "../../redux/Auth/AuthSlice";
 import LoginSVG from "../../helpers/images/login.svg";
 
 const Index = () => {
@@ -75,7 +75,7 @@ const Index = () => {
             navigate("/");
           }
         } else {
-          toast.error("User was not loggined!");
+          toast.error("Something went wrong,please try again!");
         }
       } catch (error) {
         console.log("error: ", error);

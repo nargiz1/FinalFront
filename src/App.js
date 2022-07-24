@@ -21,7 +21,8 @@ const LoginPage = React.lazy(() => import("./pages/LoginPage/index"));
 const RegisterPage = React.lazy(() => import("./pages/RegisterPage/index"));
 const ForgetPasswordPage = React.lazy(() => import("./pages/ForgotPasswordPage/index"));
 const ResetPage = React.lazy(() => import("./pages/ResetPasswordPage/index"));
-const SettingPage = React.lazy(() => import("./pages/SettingPage/index"));
+const ProfilePage = React.lazy(() => import("./pages/SettingPage/Profile"));
+const PrivacyPage = React.lazy(() => import("./pages/SettingPage/Privacy"));
 const UserPage = React.lazy(() => import("./pages/UserPage/index"));
 
 
@@ -58,7 +59,8 @@ function App() {
           <Route path="/photos" element={<PhotosPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/videos" element={<VideosPage />} />
-          <Route path="/setting" element={<SettingPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/user/:userId" element={<UserPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </>

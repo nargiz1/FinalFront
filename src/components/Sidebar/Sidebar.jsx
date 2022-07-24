@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { BsFillBagFill, BsFillCameraVideoFill } from "react-icons/bs";
-import { MdGroups, MdOutlineKeyboardArrowDown } from "react-icons/md";
-import { BiMessageDetail, BiLogIn } from "react-icons/bi";
-import { HiPhotograph } from "react-icons/hi";
-import { AiFillHome, AiOutlineSetting } from "react-icons/ai";
-import { RiFlag2Fill } from "react-icons/ri";
+import { BiMessageDetail} from "react-icons/bi";
+import {IoLogOutOutline} from 'react-icons/io5'
+import { CgProfile } from "react-icons/cg";
+import { AiFillHome} from "react-icons/ai";
+import { RiFlag2Fill,RiLockPasswordLine } from "react-icons/ri";
 import * as authServices from "../../services/AuthService";
 
 import { setLogin } from "../../redux/Auth/AuthSlice";
@@ -130,13 +129,25 @@ function Sidebar({ isOpen }) {
         {isOpen ? <h3 className="mb-3 ps-2">Pages</h3> : null}
 
         <div className="d-flex justify-content-between align-items-center pages-item">
-          <Link to="/setting">
+          <Link to="/profile">
           <div
             className="d-flex align-items-center"
           >
-            <AiOutlineSetting />
+            <CgProfile />
             {isOpen ? (
-                <h4>Setting</h4>
+                <h4>Profile</h4>
+                ) : null}
+          </div>
+                </Link>
+        </div>
+        <div className="d-flex justify-content-between align-items-center pages-item">
+          <Link to="/privacy">
+          <div
+            className="d-flex align-items-center"
+          >
+            <RiLockPasswordLine />
+            {isOpen ? (
+                <h4>Privacy</h4>
                 ) : null}
           </div>
                 </Link>
@@ -147,7 +158,7 @@ function Sidebar({ isOpen }) {
             onClick={(e) => logoutHandler()}
             className="d-flex align-items-center"
           >
-            <BiLogIn />
+            <IoLogOutOutline />
             {isOpen ? (
                 <h4>Logout</h4>
                 ) : null}

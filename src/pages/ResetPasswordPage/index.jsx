@@ -17,8 +17,6 @@ const Index = () => {
   const email = new URLSearchParams(search).get("email");
 
   useEffect(() => {
-    console.log("token", token);
-    console.log("email", email);
     sessionStorage.setItem("token", token);
     sessionStorage.setItem("email", email);
   }, [token, email]);

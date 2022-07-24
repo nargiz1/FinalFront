@@ -43,7 +43,6 @@ function Header({ isOpen, setIsOpen, showIcon = true, handleShow }) {
     const resp = await userServices.SearchUserService(searchUser);
     setUserData(resp);
     setShowData(true);
-    console.log("searching user resp",resp);
   
   };
 
