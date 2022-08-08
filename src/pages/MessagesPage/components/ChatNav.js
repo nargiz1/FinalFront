@@ -1,25 +1,24 @@
-import { RiDeleteBinLine } from "react-icons/ri"
+import { RiDeleteBinLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { AiTwotoneEdit } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { useState } from 'react';
+import { useState } from "react";
 import * as UserService from "../../../services/UserService";
 import * as chatServices from "../../../services/ChatSevice";
-import { setGroupChat, setGroupChatMembers } from '../../../redux/Chat/GroupChatSlice';
-import { useDispatch } from 'react-redux';
+import {
+  setGroupChat,
+  setGroupChatMembers,
+} from "../../../redux/Chat/GroupChatSlice";
+import { useDispatch } from "react-redux";
 import { AiOutlinePlus } from "react-icons/ai";
 
-
-
 export function ChatNav({ deleteChat, deleteGroup, group }) {
-
   const data = useSelector((state) => state.user.currentUser);
   const [searchUser, setSearchUser] = useState("");
   const [userData, setUserData] = useState([]);
   const [showData, setShowData] = useState(false);
   const [checked, setChecked] = useState(true);
   const [clicked, setClicked] = useState(true);
-
 
   const privateChat = useSelector((state) => state.privateChat.Chat);
   const groupChat = useSelector((state) => state.groupChat.group);
@@ -38,28 +37,28 @@ export function ChatNav({ deleteChat, deleteGroup, group }) {
   const addMember = async (user, group) => {
     var member = {
       userId: user.id,
-      groupId: group.id
-    }
+      groupId: group.id,
+    };
     await chatServices.AddGroupMember(member);
     const groupChatMembers = await chatServices.getGroupMembers(groupChat.id);
     dispatch(setGroupChatMembers(groupChatMembers));
     await UserService.SearchUserService(searchUser);
-  }
+  };
 
   const deleteMember = async (user, group) => {
     console.log(user, group);
     var member = {
       userId: user.id,
-      groupId: group.id
-    }
+      groupId: group.id,
+    };
     await chatServices.DeleteGroupMember(member);
     const groupChatMembers = await chatServices.getGroupMembers(groupChat.id);
     dispatch(setGroupChatMembers(groupChatMembers));
     await UserService.SearchUserService(searchUser);
-  }
+  };
 
   const handleGroupPicChange = async (name, value) => {
-    console.log("name",name);
+    console.log("name", name);
     const formData = new FormData();
     Array.from(value).forEach((ImageFile) =>
       formData.append("ImageFile", ImageFile)
@@ -70,19 +69,21 @@ export function ChatNav({ deleteChat, deleteGroup, group }) {
     dispatch(setGroupChat(groupChat));
   };
 
-  
   return (
     <>
       {privateChat.userTwo != undefined && (
         <>
           <div className="message-heading d-flex justify-content-between border-bottom">
-            {privateChat.userTwo.userName == currentUser.userName ?
+            {privateChat.userTwo.userName == currentUser.userName ? (
               <h6>{privateChat.userOne.fullName}</h6>
-              :
-              <h6>{privateChat.userTwo.fullName}</h6>}
-            <a className="delete-messages d-flex align-items-center" >
+            ) : (
+              <h6>{privateChat.userTwo.fullName}</h6>
+            )}
+            <a className="delete-messages d-flex align-items-center text-decoration-none">
               <RiDeleteBinLine />
-              <span className="ms-1" onClick={e => deleteChat(privateChat)} >Delete conversation</span>
+              <span className="ms-1" onClick={(e) => deleteChat(privateChat)}>
+                Delete conversation
+              </span>
             </a>
           </div>
         </>
@@ -124,10 +125,21 @@ export function ChatNav({ deleteChat, deleteGroup, group }) {
                     <div className="offcanvas-body">
                       <div className="d-flex align-items-center justify-content-center position-relative">
                         <div className="message-canvas-photo">
-                          <img
-                            src={"http://localhost:39524/" + groupChat.imageUrl}
-                            className="w-100"
-                          />
+                          {groupChat.imageUrl === null ? (
+                            <img
+                              className="profile-photo"
+                              src={require("../../../helpers/images/default_group.png")}
+                              alt="profile-photo"
+                            />
+                          ) : (
+                            <img
+                              className="profile-photo"
+                              src={
+                                "http://localhost:39524/" + groupChat.imageUrl
+                              }
+                              alt="profile-photo"
+                            />
+                          )}
                         </div>
                         <div className="profile-upload">
                           <label htmlFor="photo">
@@ -152,12 +164,15 @@ export function ChatNav({ deleteChat, deleteGroup, group }) {
                         <div className="message-canvas-name">
                           {groupChat.name}
                         </div>
-                        <div>{groupChatMembers.length+1} members</div>
+                        <div>{groupChatMembers.length + 1} members</div>
                         <div className="tabs">
                           <div className="tab-2">
-                            <label htmlFor="tab2-1"
-                            onClick={() => setClicked(true)}
-                            >Add</label>
+                            <label
+                              htmlFor="tab2-1"
+                              onClick={() => setClicked(true)}
+                            >
+                              Add
+                            </label>
                             <input
                               id="tab2-1"
                               name="tabs-two"
@@ -180,10 +195,19 @@ export function ChatNav({ deleteChat, deleteGroup, group }) {
                                 <div className="message-canvas-search-user-data mb-4">
                                   {userData && userData.length > 0 ? (
                                     userData.map((user, index) => (
-                                      <div key={index} className={`member-wrapper ${clicked === true ? "d-block" : "d-none"
-                                      }`}>
+                                      <div
+                                        key={index}
+                                        className={`member-wrapper ${
+                                          clicked === true
+                                            ? "d-block"
+                                            : "d-none"
+                                        }`}
+                                      >
                                         <div className="d-flex align-items-center justify-content-between">
-                                          <Link to={`/user/${user.id}`} className="text-decoration-none text-black">
+                                          <Link
+                                            to={`/user/${user.id}`}
+                                            className="text-decoration-none text-black"
+                                          >
                                             <div className="d-flex align-items-center">
                                               <div>
                                                 <a
@@ -191,24 +215,46 @@ export function ChatNav({ deleteChat, deleteGroup, group }) {
                                                   className="d-flex align-items-center mb-3 text-dark text-decoration-none"
                                                 >
                                                   <div>
-                                                    <img
-                                                      className="profile-photo"
-                                                      src={"http://localhost:39524/" + user.imageUrl}
-                                                      alt="profile-photo"
-                                                    />
+                                                    {user.imageUrl === null ? (
+                                                      <img
+                                                        className="profile-photo"
+                                                        src={require("../../../helpers/images/avatar.jpg")}
+                                                        alt="profile-photo"
+                                                      />
+                                                    ) : (
+                                                      <img
+                                                        className="profile-photo"
+                                                        src={
+                                                          "http://localhost:39524/" +
+                                                          user.imageUrl
+                                                        }
+                                                        alt="profile-photo"
+                                                      />
+                                                    )}
                                                   </div>
                                                 </a>
                                               </div>
-                                              <div className="ms-2">{user.fullName}</div>
+                                              <div className="ms-2">
+                                                {user.fullName}
+                                              </div>
                                             </div>
                                           </Link>
-                                          {(!groupChatMembers.some((member) => member.userName === user.userName) && (user.userName !== currentUser.userName)) && (
-                                            <div className="add-member-btn member-btn" onClick={e => {
-                                              e.preventDefault();
-                                              addMember(user, groupChat);
-                                            }
-                                            }>+</div>
-                                          )}
+                                          {!groupChatMembers.some(
+                                            (member) =>
+                                              member.userName === user.userName
+                                          ) &&
+                                            user.userName !==
+                                              currentUser.userName && (
+                                              <div
+                                                className="add-member-btn member-btn"
+                                                onClick={(e) => {
+                                                  e.preventDefault();
+                                                  addMember(user, groupChat);
+                                                }}
+                                              >
+                                                +
+                                              </div>
+                                            )}
                                         </div>
                                       </div>
                                     ))
@@ -220,14 +266,23 @@ export function ChatNav({ deleteChat, deleteGroup, group }) {
                             </div>
                           </div>
                           <div className="tab-2">
-                            <label htmlFor="tab2-2"
-                            onClick={() => setClicked(false)}
-                            >Members</label>
+                            <label
+                              htmlFor="tab2-2"
+                              onClick={() => setClicked(false)}
+                            >
+                              Members
+                            </label>
                             <input id="tab2-2" name="tabs-two" type="radio" />
                             <div className="member-wrapper">
-                              {groupChatMembers.map((user, index) =>
-                                <div key={index} className="d-flex align-items-center justify-content-between">
-                                  <Link to={"/user"} className="text-decoration-none text-black">
+                              {groupChatMembers.map((user, index) => (
+                                <div
+                                  key={index}
+                                  className="d-flex align-items-center justify-content-between"
+                                >
+                                  <Link
+                                    to={"/user"}
+                                    className="text-decoration-none text-black"
+                                  >
                                     <div className="d-flex align-items-center">
                                       <div>
                                         <a
@@ -235,23 +290,41 @@ export function ChatNav({ deleteChat, deleteGroup, group }) {
                                           className="d-flex align-items-center mb-3 text-dark text-decoration-none"
                                         >
                                           <div>
-                                            <img
-                                              className="profile-photo"
-                                              src={"http://localhost:39524/" + user.imageUrl}
-                                              alt="profile-photo"
-                                            />
+                                            {user.imageUrl === null ? (
+                                              <img
+                                                className="profile-photo"
+                                                src={require("../../../helpers/images/avatar.jpg")}
+                                                alt="profile-photo"
+                                              />
+                                            ) : (
+                                              <img
+                                                className="profile-photo"
+                                                src={
+                                                  "http://localhost:39524/" +
+                                                  user.imageUrl
+                                                }
+                                                alt="profile-photo"
+                                              />
+                                            )}
                                           </div>
                                         </a>
                                       </div>
-                                      <div className="ms-2">{user.userName}</div>
+                                      <div className="ms-2">
+                                        {user.userName}
+                                      </div>
                                     </div>
                                   </Link>
-                                  <div className="remove-member-btn member-btn" onClick={e => {
-                                    e.preventDefault();
-                                    deleteMember(user, groupChat)}
-                                    }>-</div>
+                                  <div
+                                    className="remove-member-btn member-btn"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      deleteMember(user, groupChat);
+                                    }}
+                                  >
+                                    -
+                                  </div>
                                 </div>
-                              )}
+                              ))}
                             </div>
                           </div>
                         </div>
@@ -259,7 +332,9 @@ export function ChatNav({ deleteChat, deleteGroup, group }) {
                     </div>
                   </div>
                   <div className="delete-messages messages-prop d-flex align-items-center">
-                    <RiDeleteBinLine onClick={e => deleteGroup(groupChat.id)} />
+                    <RiDeleteBinLine
+                      onClick={(e) => deleteGroup(groupChat.id)}
+                    />
                     <span className="ms-1"></span>
                   </div>
                 </div>
@@ -269,6 +344,5 @@ export function ChatNav({ deleteChat, deleteGroup, group }) {
         </>
       )}
     </>
-
-  )
+  );
 }

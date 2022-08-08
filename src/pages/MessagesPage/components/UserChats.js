@@ -166,11 +166,20 @@ export function UserChats({ joinRoom, setChat, closeConnection, setGroup }) {
                     className="d-flex align-items-center mb-3 text-dark text-decoration-none"
                   >
                     <div>
-                      <img
+                      {group.imageUrl === null ? (
+                        <img
+                        className="profile-photo"
+                        src={require("../../../helpers/images/default_group.png")}
+                        alt="profile-photo"
+                      />
+                      ): (
+                        <img
                         className="profile-photo"
                         src={"http://localhost:39524/" + group.imageUrl}
                         alt="profile-photo"
                       />
+                      )}
+                      
                     </div>
                   </a>
                 </div>

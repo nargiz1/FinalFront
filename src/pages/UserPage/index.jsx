@@ -6,7 +6,7 @@ import UserTabs from "../UserPage/UserTabs/index";
 import * as postServices from "../../services/PostService";
 import * as userServices from "../../services/UserService";
 import { setUserPosts } from "../../redux/Post/PostSlice";
-import { setUserById } from "../../redux/User/UserSlice";
+import { setUserById,setCurrentUser } from "../../redux/User/UserSlice";
 import { setFollowing, setFollowers } from "../../redux/Follow/FollowSlice";
 import "../UserPage/index.css";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -63,7 +63,9 @@ const Index = ({joinRoom}) => {
     );
     await userServices.profilePicService(formData);
     const userById = await userServices.getUserByIdService(userId);
+    const currentUser = await userServices.getUserService();
     dispatch(setUserById(userById));
+    dispatch(setCurrentUser(currentUser));
   };
   const handleCoverChange = async (name, value) => {
   

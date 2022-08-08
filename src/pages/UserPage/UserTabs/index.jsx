@@ -18,7 +18,7 @@ import { MdOutlineWork } from "react-icons/md";
 import { FaBirthdayCake, FaUniversity } from "react-icons/fa";
 
 import "../../UserPage/index.css";
-import { BsFillArrowDownCircleFill } from "react-icons/bs";
+import { BsFillArrowDownCircleFill, BsFillPeopleFill } from "react-icons/bs";
 
 const Index = ({ user }) => {
   const [value, setValue] = React.useState(0);
@@ -64,9 +64,9 @@ const Index = ({ user }) => {
       const user = await userServices.getUserByIdService(userId);
       const following = await followServices.getSubscribesService(user);
       const followers = await followServices.getFollowersService(user);
-      dispatch(setUserById(user));
       dispatch(setFollowers(followers));
       dispatch(setFollowing(following));
+      dispatch(setUserById(user));
     })();
   }, [userId, dispatch]);
 
@@ -85,10 +85,14 @@ const Index = ({ user }) => {
   const deleteFollower = async (e, id) => {
     e.preventDefault();
     await followServices.deleteFollowerService(id);
+    const followers = await followServices.getFollowersService(user);
+    dispatch(setFollowers(followers));
   };
 
   const unFollow = async (e, id) => {
     await followServices.unFollowService(id);
+    const following = await followServices.getSubscribesService(user);
+    dispatch(setFollowing(following));
   };
 
   return (
@@ -212,7 +216,7 @@ const Index = ({ user }) => {
                   ) : null}
                 </ul>
                 {userById.id == currentUser.id ? (
-                  <Link to={`/setting`}>
+                  <Link to={`/profile`}>
                     <button className="edit-button w-100 mt-3">Edit</button>
                   </Link>
                 ) : null}
@@ -443,7 +447,7 @@ const Index = ({ user }) => {
                 </span>
               </li>
             </ul>
-            <Link to={"/setting"}>
+            <Link to={"/profile"}>
               <button className="btn btn-primary w-100 mt-3">Edit</button>
             </Link>
           </div>

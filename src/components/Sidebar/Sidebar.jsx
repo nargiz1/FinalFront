@@ -2,17 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { BiMessageDetail} from "react-icons/bi";
-import {IoLogOutOutline} from 'react-icons/io5'
+import { BiMessageDetail } from "react-icons/bi";
+import { IoLogOutOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
-import { AiFillHome} from "react-icons/ai";
-import { RiFlag2Fill,RiLockPasswordLine } from "react-icons/ri";
+import { AiFillHome } from "react-icons/ai";
+import { RiFlag2Fill, RiLockPasswordLine } from "react-icons/ri";
 import * as authServices from "../../services/AuthService";
 import * as chatService from "../../services/ChatSevice";
 import { setPrivateChats } from "../../redux/Chat/PrivateChatSlice";
 import * as UserService from "../../services/UserService";
 import { setCurrentUser } from "../../redux/User/UserSlice";
-
 
 import { setLogin } from "../../redux/Auth/AuthSlice";
 import "../Sidebar/Sidebar.css";
@@ -29,7 +28,6 @@ function Sidebar({ isOpen }) {
     dispatch(setLogin(null));
     window.location.reload();
     navigate("/");
-    
   };
 
   const privateChats = useSelector((state) => state.privateChat.privateChats);
@@ -44,6 +42,8 @@ function Sidebar({ isOpen }) {
     })();
   }, [dispatch]);
 
+  
+
   return (
     <div
       className={`sidebar scroll-bar`}
@@ -53,24 +53,21 @@ function Sidebar({ isOpen }) {
           : { maxWidth: "30%", backgroundColor: "white" }
       }
     >
-      <div
-      className={`border-end ps-2 pe-2`}
-      
-      >
-      <div className="sidebar-top border-bottom pt-lg-3 pt-sm-0">
-        <SidebarRow
-          Icon={AiFillHome}
-          title="Feed"
-          color="#2563EB"
-          isOpen={isOpen}
-        />
-        <SidebarRow
-          Icon={RiFlag2Fill}
-          title="Pages"
-          link="pages"
-          color="#F59E0B"
-          isOpen={isOpen}
-        />
+      <div className={`border-end ps-2 pe-2`}>
+        <div className="sidebar-top border-bottom pt-lg-3 pt-sm-0">
+          <SidebarRow
+            Icon={AiFillHome}
+            title="Feed"
+            color="#2563EB"
+            isOpen={isOpen}
+          />
+          <SidebarRow
+            Icon={RiFlag2Fill}
+            title="Pages"
+            link="pages"
+            color="#F59E0B"
+            isOpen={isOpen}
+          />
           <SidebarRow
             Icon={BiMessageDetail}
             title="Messages"
@@ -78,14 +75,23 @@ function Sidebar({ isOpen }) {
             color="#6366F1"
             isOpen={isOpen}
           />
-      </div>
-      <div className="sidebar-middle border-bottom pt-3">
+        </div>
+        <div className="sidebar-middle border-bottom pt-3">
           {isOpen ? <h3 className="mb-3 ps-2">Contacts</h3> : null}
           {privateChats?.map((chat, index) => (
-            <div className="contact-person" onClick={(e) => navigate(`/messages?chat=${chat.id}`)}>
-              <a
-                className="d-flex align-items-center text-dark text-decoration-none"
-              >
+            <div
+              className="contact-person"
+              onClick={(e) => {
+                // fetchJoinRoom(
+                //   chat.userTwo.userName == user.userName
+                //     ? chat.userTwo.userName
+                //     : chat.userOne.userName,
+                //   chat.id.toString()
+                // );
+                navigate(`/messages?chat=${chat.id}`);
+              }}
+            >
+              <a className="d-flex align-items-center text-dark text-decoration-none">
                 <div>
                   <img
                     className="profile-photo"
@@ -109,48 +115,38 @@ function Sidebar({ isOpen }) {
             </div>
           ))}
         </div>
-      <div className="sidebar-bottom border-bottom pt-3">
-        {isOpen ? <h3 className="mb-3 ps-2">Pages</h3> : null}
+        <div className="sidebar-bottom border-bottom pt-3">
+          {isOpen ? <h3 className="mb-3 ps-2">Pages</h3> : null}
 
-        <div className="d-flex justify-content-between align-items-center pages-item">
-          <Link to="/profile">
-          <div
-            className="d-flex align-items-center"
-          >
-            <CgProfile />
-            {isOpen ? (
-                <h4>Profile</h4>
-                ) : null}
+          <div className="d-flex justify-content-between align-items-center pages-item">
+            <Link to="/profile">
+              <div className="d-flex align-items-center">
+                <CgProfile />
+                {isOpen ? <h4>Profile</h4> : null}
+              </div>
+            </Link>
           </div>
-                </Link>
-        </div>
-        <div className="d-flex justify-content-between align-items-center pages-item">
-          <Link to="/privacy">
-          <div
-            className="d-flex align-items-center"
-          >
-            <RiLockPasswordLine />
-            {isOpen ? (
-                <h4>Privacy</h4>
-                ) : null}
+          <div className="d-flex justify-content-between align-items-center pages-item">
+            <Link to="/privacy">
+              <div className="d-flex align-items-center">
+                <RiLockPasswordLine />
+                {isOpen ? <h4>Privacy</h4> : null}
+              </div>
+            </Link>
           </div>
-                </Link>
-        </div>
-        <div className="d-flex justify-content-between align-items-center pages-item">
-           <Link to="/login"> 
-          <div
-            onClick={(e) => logoutHandler()}
-            className="d-flex align-items-center"
-          >
-            <IoLogOutOutline />
-            {isOpen ? (
-                <h4>Logout</h4>
-                ) : null}
+          <div className="d-flex justify-content-between align-items-center pages-item">
+            <Link to="/login">
+              <div
+                onClick={(e) => logoutHandler()}
+                className="d-flex align-items-center"
+              >
+                <IoLogOutOutline />
+                {isOpen ? <h4>Logout</h4> : null}
+              </div>
+            </Link>
           </div>
-                </Link> 
         </div>
       </div>
-    </div>
     </div>
   );
 }

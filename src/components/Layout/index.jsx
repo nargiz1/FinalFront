@@ -8,6 +8,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import Tabs from "../../components/Tabs/Tabs";
 import TabPanel from "../../components/Tabs/TabPanel";
 
+
 const Layout = ({ showIcon = true, collapseSidebar = false, children }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [value, setValue] = useState(0);
@@ -26,6 +27,7 @@ const Layout = ({ showIcon = true, collapseSidebar = false, children }) => {
     
     window.scrollTo(0, 0)
   };
+
   return (
     <div className="container-fluid" style={{ paddingTop: "64px" }}>
       <div className="row">

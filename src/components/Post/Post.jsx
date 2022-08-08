@@ -41,6 +41,9 @@ const Post = ({ post, likeTest, setLikeTest, userById }) => {
         const resp = await commentServices.CommentPostService(createComment);
         getAllPosts();
         getUserPosts();
+        Array.from(document.querySelectorAll("input")).forEach(
+          input => (input.value = "")
+        );
       } catch (error) {
         console.log("error: ", error);
       }
@@ -134,7 +137,7 @@ const Post = ({ post, likeTest, setLikeTest, userById }) => {
                 aria-expanded="false"
               />
               <ul className="dropdown-menu post-events">
-                <li>Edit post</li>
+                
                 {showComment ? (
                   <li onClick={(e) => setShowComment(!showComment)}>
                     Disable comments
@@ -270,18 +273,14 @@ const Post = ({ post, likeTest, setLikeTest, userById }) => {
                   </>
                 ) : null}
               </div>
-              <div className="post-interaction">
-                <div>
-                  <BsShare />
-                </div>
-              </div>
+              
             </div>
 
             {post.likes?.length > 0 ? (
               <div className="d-flex align-items-center like-content">
                 <div className="avatar-group d-flex ps-2">
                   <div className="avatar-item">
-                    {post.likes?.user?.imageUrl === null ? (
+                    {post.likes?.user?.imageUrl == null ? (
                       <img
                         src={require("../../helpers/images/avatar.jpg")}
                         alt="liker-img"

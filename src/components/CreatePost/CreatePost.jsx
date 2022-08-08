@@ -5,7 +5,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { MdVideoCall } from "react-icons/md";
 import "./CreatePost.css";
-import { setPosts,setUserPosts } from "../../redux/Post/PostSlice";
+import { setPosts, setUserPosts } from "../../redux/Post/PostSlice";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import * as userServices from "../../services/UserService";
@@ -61,7 +61,7 @@ const CreatePost = () => {
       const userPosts = await postServices.getUserPostsService(currentUser);
       dispatch(setUserPosts(userPosts));
     }, 1000);
-    
+
     setCreatePost({
       Text: "",
       IsPrivate: false,
@@ -69,9 +69,9 @@ const CreatePost = () => {
       ImageFiles: [],
       VideoFiles: [],
       PublicationTime: "",
-    })
-
+    });
   };
+  console.log(currentUser)
 
   return (
     <>
@@ -79,11 +79,19 @@ const CreatePost = () => {
         <div className="createPost-top">
           <Link to={`/user/${currentUser.id}`}>
             <div>
-              <img
-                src={"http://localhost:39524/" + currentUser?.imageUrl}
-                alt="profile-photo"
-                className="post-profile"
-              />
+              {currentUser?.imageUrl === null ? (
+                <img
+                  src={require("../../helpers/images/avatar.jpg")}
+                  alt="profile-photo"
+                  className="post-profile"
+                />
+              ) : (
+                <img
+                  src={"http://localhost:39524/" + currentUser?.imageUrl}
+                  alt="profile-photo"
+                  className="post-profile"
+                />
+              )}
             </div>
           </Link>
 

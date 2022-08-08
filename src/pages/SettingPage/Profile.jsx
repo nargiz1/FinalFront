@@ -49,7 +49,7 @@ const Profile = () => {
       // console.log("values formik: ", values);
     },
   });
-
+console.log(formik);
   useEffect(() => {
     if (currentUser) {
       formik.setValues({

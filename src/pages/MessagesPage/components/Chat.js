@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { BsCheck } from 'react-icons/bs'
 import {BsCheck2All} from 'react-icons/bs'
@@ -11,11 +11,6 @@ export function Chat({ messages }) {
   const messagesDb = useSelector((state) => state.message.messages);
   const user = useSelector((state) => state.user.currentUser);
   const chat = useSelector((state) => state.privateChat.Chat);
-
-
-  // useEffect(()=> {
-    
-  // },[chat]);
   
 
   useEffect(() => {
@@ -26,9 +21,6 @@ export function Chat({ messages }) {
 
   return (
     <div className="py-3 messages-wrapper">
-      {/* <div className="message-date w-100 text-center">
-        <span>06 December, 2022</span>
-      </div> */}
       <div className="message-area mt-3">
         <div className="pe-4 ps-4" >
           {messagesDb && (
@@ -45,11 +37,20 @@ export function Chat({ messages }) {
                     className="d-flex align-items-center mb-3 text-dark text-decoration-none"
                   >
                     <div>
-                      <img
+                      {m.user.imageUrl ===null ? (
+                        <img
+                        className="profile-photo"
+                        src={require("../../../helpers/images/avatar.jpg")}
+                        alt="profile-photo"
+                      />
+                      ): (
+                        <img
                         className="profile-photo"
                         src={"http://localhost:39524/" + (m.user.imageUrl)}
                         alt="profile-photo"
                       />
+                      )}
+                      
                     </div>
                   </a>
                 </div>
@@ -79,11 +80,19 @@ export function Chat({ messages }) {
                   className="d-flex align-items-center mb-3 text-dark text-decoration-none"
                 >
                   <div>
-                    <img
-                      className="profile-photo"
-                      src={"http://localhost:39524/" + (m.userImage)}
-                      alt="profile-photo"
-                    />
+                  {m.userImage ===null ? (
+                        <img
+                        className="profile-photo"
+                        src={require("../../../helpers/images/avatar.jpg")}
+                        alt="profile-photo"
+                      />
+                      ): (
+                        <img
+                        className="profile-photo"
+                        src={"http://localhost:39524/" + (m.userImage)}
+                        alt="profile-photo"
+                      />
+                      )}
                   </div>
                 </a>
               </div>

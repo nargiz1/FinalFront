@@ -10,6 +10,7 @@ import Modal from "react-bootstrap/Modal";
 const CreateStory = () => {
   const dispatch = useDispatch();
   const stories = useSelector((state) => state.story.stories);
+  const isChange = useSelector((state) => state.story.isChange);
   const [show, setShow] = useState(false);
   const [selectedStory, setSelectedStory] = useState({});
 
@@ -25,18 +26,19 @@ const CreateStory = () => {
       const allStories = await storyServices.getAllStoriesService();
       dispatch(setStories(allStories));
     })();
-  }, [dispatch]);
+  }, [dispatch, isChange]);
 
   const handleStoryChange = async (name, value) => {
     const formData = new FormData();
     Array.from(value).forEach((File) => formData.append("File", File));
     const resp = await storyServices.createStoryService(formData);
-    await storyServices.storyExpireService(resp.id);
     const allStories = await storyServices.getAllStoriesService();
     dispatch(setStories(allStories));
-
-    // const userById = await userServices.getUserByIdService(userId);
-    // dispatch(setUserById(userById));
+    const expire = await storyServices.storyExpireService(resp.id);
+    if (expire) {
+      const allStories = await storyServices.getAllStoriesService();
+      dispatch(setStories(allStories));
+    }
   };
   return (
     <div className="d-flex align-items-center mb-3">

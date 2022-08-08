@@ -116,7 +116,7 @@ function Header({ isOpen, setIsOpen, showIcon = true, handleShow }) {
               </div>
             </div>
             <div className="header-right d-flex">
-              <a 
+              <a
                 style={{ cursor: "pointer" }}
                 onClick={(e) => {
                   e.preventDefault();
@@ -127,11 +127,19 @@ function Header({ isOpen, setIsOpen, showIcon = true, handleShow }) {
               </a>
               <Link to={`/user/${currentUser.id}`}>
                 <div>
-                  <img
-                    src={"http://localhost:39524/" + currentUser?.imageUrl}
-                    alt="profile-photo"
-                    className="post-profile"
-                  />
+                  {currentUser?.imageUrl === null ? (
+                    <img
+                      src={require("../../helpers/images/avatar.jpg")}
+                      alt="profile-photo"
+                      className="post-profile"
+                    />
+                  ) : (
+                    <img
+                      src={"http://localhost:39524/" + currentUser?.imageUrl}
+                      alt="profile-photo"
+                      className="post-profile"
+                    />
+                  )}
                 </div>
               </Link>
             </div>
