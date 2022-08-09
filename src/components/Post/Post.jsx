@@ -89,6 +89,7 @@ const Post = ({ post, likeTest, setLikeTest, userById }) => {
   const isExistLikedUser = post.likes?.some(
     (elem) => elem.userId === currentUser?.id
   );
+  
 
   return (
     <>
@@ -280,7 +281,7 @@ const Post = ({ post, likeTest, setLikeTest, userById }) => {
               <div className="d-flex align-items-center like-content">
                 <div className="avatar-group d-flex ps-2">
                   <div className="avatar-item">
-                    {post.likes?.user?.imageUrl == null ? (
+                    {post.likes[0]?.user?.imageUrl === null ? (
                       <img
                         src={require("../../helpers/images/avatar.jpg")}
                         alt="liker-img"

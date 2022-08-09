@@ -44,11 +44,6 @@ export function UserChats({ joinRoom, setChat, closeConnection, setGroup }) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  // const groupArray = [...groupChats];
-  // const prChatArray = [...privateChats];
-  // const allChats = [...groupArray, ...prChatArray];
-  // const sorted = allChats.sort((a, b) => b.created - a.created);
-  // console.log(allChats);
 
   return (
     <div className="col-md-3">

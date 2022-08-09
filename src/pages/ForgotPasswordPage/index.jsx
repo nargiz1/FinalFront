@@ -32,7 +32,6 @@ const Index = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      // console.log("values formik: ", values);
     },
   });
 

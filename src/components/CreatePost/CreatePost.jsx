@@ -71,7 +71,6 @@ const CreatePost = () => {
       PublicationTime: "",
     });
   };
-  console.log(currentUser)
 
   return (
     <>

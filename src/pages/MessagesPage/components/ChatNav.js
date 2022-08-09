@@ -30,7 +30,6 @@ export function ChatNav({ deleteChat, deleteGroup, group }) {
     const resp = await UserService.SearchUserService(searchUser);
     setUserData(resp);
     setShowData(true);
-    console.log("searching user resp", resp);
   };
 
   var dispatch = useDispatch();
@@ -46,7 +45,6 @@ export function ChatNav({ deleteChat, deleteGroup, group }) {
   };
 
   const deleteMember = async (user, group) => {
-    console.log(user, group);
     var member = {
       userId: user.id,
       groupId: group.id,
@@ -58,7 +56,6 @@ export function ChatNav({ deleteChat, deleteGroup, group }) {
   };
 
   const handleGroupPicChange = async (name, value) => {
-    console.log("name", name);
     const formData = new FormData();
     Array.from(value).forEach((ImageFile) =>
       formData.append("ImageFile", ImageFile)

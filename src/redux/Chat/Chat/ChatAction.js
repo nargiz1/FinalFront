@@ -21,7 +21,6 @@ export const fetchJoinRoom = (user, room) => async (dispatch) => {
           dispatch(setConnection());
           dispatch(setMessages1([]));
         })
-        console.log("here")
   
         await connection.start();
         await connection.invoke("JoinRoom", { user, room });

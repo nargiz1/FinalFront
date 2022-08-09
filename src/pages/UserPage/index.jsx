@@ -192,7 +192,6 @@ const Index = ({joinRoom}) => {
              
                   {user?.id !== currentUser?.id ? (
                     <div className="d-flex w-100 justify-content-center align-items-center mt-3">
-                      {console.log(chatExists)}
                       {chatExists === true && (
                         <button className="btn btn-primary" onClick={createMessage}>Message</button>
                       )}

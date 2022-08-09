@@ -37,7 +37,6 @@ export function MessageForm({ sendMessage, usersInRoom }) {
       Array.from(document.querySelectorAll("input")).forEach(
         input => (input.value = "")
       );
-      console.log(message)
     } catch (error) {
       console.log('error: ', error);
     }

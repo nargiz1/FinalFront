@@ -44,7 +44,6 @@ function Feed() {
   }, [likeTest, pagination, dispatch]);
 
   let visitedPage = page_limit + pagination.limit;
-
   return (
     <div className="feed">
       <CreatePost />

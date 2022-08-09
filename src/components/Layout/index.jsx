@@ -54,9 +54,6 @@ const Layout = ({ showIcon = true, collapseSidebar = false, children }) => {
          {children}
           <div>
             {
-              console.log(window.innerHeight)
-            }
-            {
               showIcon?(
             <button
               className="chat-button"

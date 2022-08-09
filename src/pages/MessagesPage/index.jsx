@@ -33,12 +33,10 @@ const Index = ({joinRoom, users, sendMessage, messages1, closeConnection}) => {
   const privateChat = useSelector((state) => state.privateChat.Chat);
   const groupChat = useSelector((state) => state.groupChat.group);
   
-  console.log(user)
   const search = useLocation().search;
   const chatId = new URLSearchParams(search).get("chat")
   const groupId =new URLSearchParams(search).get("group")
 
-  console.log(groupId);
 
   const dispatch = useDispatch();
   useEffect(() => {
